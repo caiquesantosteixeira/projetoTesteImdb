@@ -1,0 +1,38 @@
+<div style="background: #fff;">
+  <div class="title-modal">
+    <span class="modal-title" id="modal-title"
+      >JAMSOFT Sistemas - Notificação</span
+    >
+    <mat-icon id="close-icon" title="Fechar" (click)="onClose()">close</mat-icon
+    ><br />
+  </div>
+  <div class="content-container">
+    <div class="body">
+      <span class="content-span">{{ data.mensagem }}</span>
+    </div>
+  </div>
+  <button
+    mat-flat-button
+    id="no-button"
+    *ngIf="data.yesno == true"
+    [mat-dialog-close]="false"
+  >
+    {{ data.nameBtnNo }}
+  </button>
+  <button
+    mat-flat-button
+    id="yes-button"
+    *ngIf="data.yesno == true"
+    [mat-dialog-close]="true"
+  >
+    {{ data.nameBtnYes }}
+  </button>
+  <button
+    mat-flat-button
+    id="ok-button"
+    *ngIf="data.yesno == false"
+    [mat-dialog-close]="false"
+  >
+    OK
+  </button>
+</div>

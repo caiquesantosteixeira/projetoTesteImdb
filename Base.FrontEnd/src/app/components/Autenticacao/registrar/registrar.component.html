@@ -1,0 +1,73 @@
+<div class="wrapper wrapper-full-page">
+  <div class="full-page login-page" data-color="back" data-image="./assets/img/imagem-rotina1.jpg">
+  <!-- adicionado por P.H a cor black-->
+  <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
+      <div class="content">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                      <form method="#" action="#" [formGroup]="dadosForm">
+
+                      <!--   if you want to have the card without animation please remove the ".card-hidden" class   -->
+                          <div class="card card-hidden" style="background: #fff; border: 3px solid #f0f0f0;">
+                              <!--<div class="header text-center acesso">
+                                  <i class="fa fa-lock" aria-hidden="true"></i>
+                                Acessar
+                              </div>-->
+                              <div class="header text-center acesso">
+                                <img src="./assets/jamsoft/logomarcaRed.png" width="160" height="60">
+                                <h4 class="tit-registrar">Registrar</h4>
+                              </div>
+                              <div class="content">
+                                <div class="row">
+                                  <div class="col-md-12 form-group">
+                                      <label><strong>Razão Social:</strong></label><br>
+                                      <span>{{dadosEmp.razaoSocial}}</span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label><strong>Cnpj:</strong></label><br>
+                                        <span>{{dadosEmp.cnpj | mask: '00.000.000/0000-00'}}</span>
+                                    </div>
+                                  </div>
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label>Registro<span class="star">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" name="pesqCliente" placeholder="Digite/Pesquise o registro." class="form-control"
+                                              [brmasker]="{mask:'0000-0000-0000-0000-0000-0000', len:29, userCaracters: true}" formControlName="registro">
+                                          <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" title="Buscar registro online">
+                                              <i class="fa fa-search" aria-hidden="true"></i>
+                                            </button>
+                                          </span>
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
+                              <div class="footer text-center">
+                                  <button type="submit" [disabled]="!this.dadosForm.valid" class="btn btn-fill btn-danger btn-wd">Confirmar</button>
+                              </div>
+                          </div>
+
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    <footer class="footer footer-transparent">
+          <div class="container" style="border-radius: 5px;">
+              <nav class="pull-left">
+
+              </nav>
+              <p class="copyright pull-right" style="background: #333; padding: 3px 5px; color: #fff; opacity: 0.9;">
+                  &copy; {{data | date: 'yyyy'}} <a href="http://www.jamsoft.com.br" target="_blank">JAMSOFT Sistemas</a>, soluções completa para sua empresa ( NF-e, NFC-E, Aplicativos e etc).
+              </p>
+          </div>
+      </footer>
+
+  </div>
+
+</div>

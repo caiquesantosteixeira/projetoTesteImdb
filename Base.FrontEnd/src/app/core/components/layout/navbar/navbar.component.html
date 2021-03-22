@@ -1,0 +1,74 @@
+<nav #navbar class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-minimize">
+      <button
+        id="minimizeSidebar"
+        class="btn btn-danger btn-fill btn-round btn-icon"
+      >
+        <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
+        <i class="fa fa-navicon visible-on-sidebar-mini"></i>
+      </button>
+    </div>
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle"
+        data-toggle="collapse"
+        (click)="sidebarToggle()"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">{{ getTitle() }}</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <div class="" *ngIf="isMobileMenu()">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <p style="margin-top: 20px; text-transform: uppercase">
+              Bem vindo <strong>{{ dadosUsuario?.usuario }}</strong
+              >!
+            </p>
+          </li>
+          <li>
+            <a
+              ruterLinkActive="active"
+              (click)="Sair()"
+              class="btn-sair"
+              title="Sair do Sistema"
+            >
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              <p>Sair</p>
+            </a>
+          </li>
+
+          <li class="dropdown dropdown-with-icons">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-question-circle" aria-hidden="true"></i>
+              <p class="hidden-md hidden-lg">
+                Ajuda
+                <b class="caret"></b>
+              </p>
+              Ajuda
+            </a>
+            <ul class="dropdown-menu dropdown-with-icons">
+              <li>
+                <a [routerLink]="['/autenticacao', 'selecionarEmpresa']">
+                  <i class="fa fa-toggle-off" aria-hidden="true"></i> Alternar
+                  Empresa
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/autenticacao', 'registrar']">
+                  <i class="fa fa-key" aria-hidden="true"></i> Registro
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,123 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="header">
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="title">Usuários</h4>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group text-center" style="padding-left: 10px; ">
+                <label class="control-label">Pesquisar Por: </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <input
+                type="text"
+                placeholder="Código, Login, Nome do Usuário"
+                [value]="ValueFiltro"
+                class="form-control"
+                (blur)="consultaUsuario($event.target.value)"
+              />
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" *ngIf="listarBusca">
+                <button
+                  class="btn btn-outline-dark"
+                  title="Limpar Pesquisa"
+                  (click)="LimparPesquisa()"
+                  style="font-size: 14px;"
+                >
+                  <i class="fa fa-reply" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <button
+                  [appJsPermissao]="{
+                    permissao: 'ADICIONAR',
+                    opcao: 'CADUSUARIOS'
+                  }"
+                  class="btn btn-wd btn-outline-success"
+                  (click)="Novo()"
+                  style="font-size: 14px;"
+                >
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  Novo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content table-responsive table-full-width">
+          <table class="table table-striped">
+            <thead>
+              <tr class="tr-hover">
+                <th class="text-center">CÓDIGO</th>
+                <th class="text-left">Login</th>
+                <th class="text-left">Nome</th>                
+                <th class="text-center">Perfil</th>
+                <th class="text-center">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center" *ngIf="!usuarios">
+                <td colspan="5"><strong>Carregando...</strong></td>
+              </tr>
+              <tr class="text-center" *ngIf="usuarios && usuarios.length == 0">
+                <td colspan="5"><strong>Sem registro...</strong></td>
+              </tr>
+              <tr *ngFor="let row of usuarios">
+                <td class="col-md-3 text-center">{{ row.id }}</td>
+                <td class="col-md-3 text-left">{{ row.login }}</td>
+                <td class="col-md-3">{{ row.nomeDoUsuario | uppercase }}</td>                
+                <td class="col-mg-2 text-center">
+                  {{ obterPerfil(row?.idPerfil) }}
+                </td>
+                <td class="td-actions col-md-1 text-center">
+                  <a
+                    rel="tooltip"
+                    title="Visualizar/Editar"
+                    [routerLink]="[row.id, 'edit']"
+                    class="btn btn-info btn-simple btn-xs"
+                  >
+                    <i
+                      class="fa fa-pencil-square-o icon-view"
+                      aria-hidden="true"
+                    ></i>
+                  </a>
+                  <a
+                    [appJsPermissao]="{
+                      permissao: 'EXCLUIR',
+                      opcao: 'CADUSUARIOS'
+                    }"
+                    rel="tooltip"
+                    title="Excluir Registro"
+                    *ngIf="row.id != 2"
+                    (click)="ExcluirUsuario(row)"
+                    class="btn btn-info btn-simple btn-xs"
+                  >
+                    <i class="fa fa-trash-o icon-delete" aria-hidden="true"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <app-paginacao
+            [EndPoint]="EndPoint"
+            [pagina]="pagina"
+            [filtroSelecionado]="FiltroSelecionado"
+            [filtroValue]="ValueFiltro"
+            [qtdRegPagina]="qtdRegPagina"
+            [registroExcluido]="registroExcluido"
+            (returnDados)="DadosPaginacao($event)"
+          ></app-paginacao>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">{{ empresa.razaoSocial }}</h4>
+          <hr />
+        </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-2 col-titulos">Fantasia</div>
+            <div class="col-md-5 col-dados">{{ empresa.fantasia }}</div>
+            <div class="col-md-2 col-titulos">CNPJ</div>
+            <div class="col-md-2 col-dados">
+              {{ empresa.cnpjCpf | mask: "00.000.000/0000-00" }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-titulos">Email</div>
+            <div class="col-md-5 col-dados">{{ empresa.email }}</div>
+            <div class="col-md-2 col-titulos">Fone</div>
+            <div class="col-md-2 col-dados">{{ empresa.telefone }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-titulos">Rua</div>
+            <div class="col-md-5 col-dados">{{ empresa.endereco }}</div>
+            <div class="col-md-2 col-titulos">Cep</div>
+            <div class="col-md-2 col-dados">
+              {{ empresa.cep | mask: "00000-000" }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-titulos">Bairro</div>
+            <div class="col-md-5 col-dados">{{ empresa.bairro }}</div>
+            <div class="col-md-2 col-titulos">Ambiente</div>
+            <div
+              class="col-md-2 col-dados text-red"
+              *ngIf="empresa.ambiente == 2"
+            >
+              Homologação
+            </div>
+            <div
+              class="col-md-2 col-dados text-red"
+              *ngIf="empresa.ambiente == 1"
+            >
+              Produção
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-titulos">Data Exp. Registro</div>
+            <div class="col-md-5 col-dados text-red">
+              {{ empresa.dataExpiracao }}
+            </div>
+            <div class="col-md-2 col-titulos">&nbsp;</div>
+            <div class="col-md-2 col-dados">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">JAMSOFT INFORMAÇÕES</h4>
+          <p class="category">Últimas notícias do mundo fiscal.</p>
+        </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr *ngFor="let row of tableData">
+                      <td>
+                        <a [href]="row[1]" title="Abrir link" target="_blank">{{
+                          row[0]
+                        }}</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--<img src="./../../../../assets/img/imagem-rotina1.jpg" width="100%" height="400" style="border-radius: 5px; opacity: 0.2;" />-->
+      </div>
+    </div>
+  </div>
+</div>
+

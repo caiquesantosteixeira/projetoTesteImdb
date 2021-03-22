@@ -1,0 +1,100 @@
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header" style="font-weight: 500;">
+
+                </div>
+                <div class="content">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <legend style="font-weight: 500;">Perfil</legend>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <form [formGroup]="resourceForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>Id</label>
+                                  <input class="form-control"  type="text" readonly="true" value='0' name="id" placeholder=""
+                                  id="id" name="id" formControlName="id">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="form-group">
+                                <label>Perfil<span class="star">*</span></label>
+                                <input class="form-control"  type="text" name="nome" placeholder="" id="nome" formControlName="nome" maxlength="20">
+                                <div class="text-danger" *ngIf="resourceForm.get('nome').invalid && resourceForm.get('nome').touched">
+                                  <div *ngIf="resourceForm.get('nome').errors['required']">Campo Obrigatório.</div>
+                                  <div *ngIf="resourceForm.get('nome').errors['minlength']">Digite no mínimo 2 caracteres.</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </form>
+                      <div class="row">
+                          <div class="col-md-12 text-center">
+                              <div class="form-group barra-opcoes-cadastro">
+                                <button [disabled]="submittingForm || resourceForm.invalid"  (click)="submitForm('PERFIL')" class="btn btn-wd btn-outline-dark" title="Salvar Registro">
+                                      <i class="fa fa-floppy-o icon-barra-cadastros" aria-hidden="true"></i>
+                                      Salvar
+                                </button>
+                                <button *ngIf="perfil.id>0" class="btn btn-wd btn-outline-success" (click)="Novo('PERFIL')" title="Novo Registro">
+                                    <i class="fa fa-plus-circle icon-barra-cadastros" aria-hidden="true"></i>
+                                      Novo
+                                </button>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <!-- itens do menu-->
+                    <div class="col-md-6">
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead class="thead">
+                                    <tr class="tr-hover">
+                                      <th class="text-left tdSubMenu">ID</th>
+                                      <th class="text-left tdSubMenu">PERFIL</th>
+                                      <th class="text-center tdSubMenu">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center" *ngIf="!perfis">
+                                        <td colspan="3"><strong>Carregando...</strong></td>
+                                      </tr>
+                                      <tr class="text-center" *ngIf="perfis && perfis.length == 0">
+                                        <td colspan="3"><strong>Sem registro...</strong></td>
+                                    </tr>
+                                  <tr *ngFor="let item of perfis">
+                                    <td class="col-md-3">{{item.id}}</td>
+                                    <td class="col-md-5">{{item.nome}}</td>
+                                    <td class="td-actions col-md-4 text-center">
+                                        <a rel="tooltip" title="Editar" (click)="BtnAtualizarPerfil(item)" class="btn btn-info btn-simple btn-xs">
+                                          <i class="fa fa-pencil-square-o icon-view" aria-hidden="true"></i>
+                                        </a>
+                                        <a rel="tooltip" title="Duplicar Perfil" (click)="DuplicarPerfil(item)" class="btn btn-info btn-simple btn-xs">
+                                          <i class="fa fa-clone icon-clone" aria-hidden="true"></i>
+                                        </a>
+                                        <a rel="tooltip" title="Configurar Permissões" (click)="btnConfigurarPermissao(item)" class="btn btn-info btn-simple btn-xs">
+                                          <i class="fa fa-cogs icon-config" aria-hidden="true"></i>
+                                        </a>
+                                        <a rel="tooltip" title="Excluir" (click)="ExcluirPerfil(item)" class="btn btn-info btn-simple btn-xs">
+                                            <i class="fa fa-trash-o icon-delete" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- Fim dos itens do menu-->
+                  </div>
+
+                  <br>
+                </div><!--FIM DO CONTENT-->
+            </div> <!-- end card -->
+        </div>
+
+    </div>
+

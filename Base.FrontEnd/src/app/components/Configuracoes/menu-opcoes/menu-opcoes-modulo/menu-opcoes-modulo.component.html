@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="header" style="font-weight: 500;">
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="col-md-12">
+                  <legend style="font-weight: 500;">Menu Opções - Módulo</legend>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <form [formGroup]="resourceForm">
+                  <div class="row">
+                      <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Id</label>
+                            <input class="form-control"  type="text" readonly="true" value='0' name="id" placeholder=""
+                            id="id" name="id" formControlName="id">
+                          </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label>Módulo<span class="star">*</span></label>
+                          <select class="form-control" name="idModulo" formControlName="idModulo">
+                            <option value="" selected="selected">...Selecione..</option>
+                            <option *ngFor="let item of modulos" [value]="item.id">{{item.nome}} ({{item.id}})</option>
+                          </select>
+                          <div class="text-danger" *ngIf="resourceForm.get('idModulo').invalid && resourceForm.get('idModulo').touched">
+                            <div *ngIf="resourceForm.get('idModulo').errors['required']">Campo Obrigatório.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label>Sub-Menu<span class="star">*</span></label>
+                          <select class="form-control" name="idMenuOpcoes" formControlName="idMenuOpcoes">
+                            <option value="" selected="selected">...Selecione..</option>
+                            <option *ngFor="let item of SubMenus" [value]="item.id">{{item.titulo}} ({{item.id}})</option>
+                          </select>
+                          <div class="text-danger" *ngIf="resourceForm.get('idMenuOpcoes').invalid && resourceForm.get('idMenuOpcoes').touched">
+                            <div *ngIf="resourceForm.get('idMenuOpcoes').errors['required']">Campo Obrigatório.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="form-group barra-opcoes-cadastro">
+                          <button [disabled]="submittingForm || resourceForm.invalid"  (click)="submitForm('MENU_OPCOES_MODULO')" class="btn btn-wd btn-outline-dark" title="Salvar Registro">
+                                <i class="fa fa-floppy-o icon-barra-cadastros" aria-hidden="true"></i>
+                                Salvar
+                          </button>
+                          <button *ngIf="menuopcao.id>0" class="btn btn-wd btn-outline-success" (click)="Novo('MENU_OPCOES_MODULO')" title="Novo Registro">
+                              <i class="fa fa-plus-circle icon-barra-cadastros" aria-hidden="true"></i>
+                                Novo
+                          </button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-5 col-md-offset-7">
+                    <label>Perquisar: </label>
+                  <div class="input-group">
+                      <input type="text" name="pesqCliente" #buscaMMo placeholder="" class="form-control">
+                      <span class="input-group-btn" >
+                          <button class="btn btn-default" (click)="PesqModuloSubMenu(buscaMMo.value)" type="button">
+                              <i class="fa fa-search" aria-hidden="true"></i>
+                          </button>
+                      </span>
+                  </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                  <table class="table table-striped">
+                      <thead class="thead-danger thead">
+                          <tr class="tr-hover">
+                            <th class="text-center tdSubMenu">CÓDIGO</th>
+                            <th class="text-left tdSubMenu">Módulo</th>
+                            <th class="text-left tdSubMenu">Sub-Menu</th>
+                            <th class="text-center tdSubMenu">#</th>
+                          </tr>
+                      </thead>
+                    <tbody>
+                        <tr class="text-center" *ngIf="!menuOpcoes">
+                          <td colspan="4"><strong>Carregando...</strong></td>
+                        </tr>
+                        <tr class="text-center" *ngIf="menuOpcoes && menuOpcoes.length == 0">
+                          <td colspan="4"><strong>Sem registro...</strong></td>
+                        </tr>
+                        <tr *ngFor="let row of menuOpcoes">
+                            <td class="col-md-1 text-center">{{row.id}}</td>
+                            <td class="col-md-4 text-left">{{row.modulo}}</td>
+                            <td class="col-md-4 text-left">{{row.menuOpcoes}}</td>
+                            <td class="td-actions col-md-1 text-center">
+                                <a rel="tooltip" title="Excluir Registro" (click)="btnExcluirMenuOpc(row)" class="btn btn-info btn-simple btn-xs">
+                                    <i class="fa fa-trash-o icon-delete" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+
+                  <app-paginacao [EndPoint]="EndPoint" [pagina]="pagina" [filtroSelecionado]="FiltroSelecionado" [filtroValue]="ValueFiltro"
+              [qtdRegPagina]="qtdRegPagina" [registroExcluido]="registroExcluido" [execPesqVazia]="execPesqVazia" (returnDados)="DadosPaginacao($event)" ></app-paginacao>
+              </div>
+            </div><!--Fim da div row opções menu-->
+
+          </div><!--FIM DO CONTENT-->
+      </div> <!-- end card -->
+  </div>
+
+</div>

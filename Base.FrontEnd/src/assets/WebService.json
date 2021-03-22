@@ -1,0 +1,8 @@
+[
+  {
+    "UrlWebServiceLocal": "http://localhost:5000/api/",   
+    "UrlWebServiceExterna": "http://localhost:5000/api/",
+    "UrlWebServiceRegistro": "http://jamsoftsistemas.com.br/jkeyapi/",
+    "UrlWebServicelogErro": "http://192.168.0.167/jcontrollerapi/"
+  }
+]

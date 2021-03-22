@@ -1,0 +1,40 @@
+.acesso{
+  text-align: center;
+  font-weight: bold;
+}
+.acesso i{
+  color: red;
+  font-size: 28px;
+}
+
+.content label{
+  text-transform: none;
+}
+
+.text-danger{
+  font-size: 12px;
+}
+
+
+
+.login-page .card .header {
+  padding-bottom: 10px;
+}
+
+.line{
+  content: "";
+  bottom: 0px;
+  width: calc(100% - 30px);
+  height: 3px;
+  background: #ddd;
+  left: 0;
+  right: 0;
+  margin: 5px 0px 5px 15px;
+}
+
+.btn-danger{
+  background: #ff0000;
+  color: #fff;
+  font-weight: 500;
+}
+

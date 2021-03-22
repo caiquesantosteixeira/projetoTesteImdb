@@ -1,0 +1,276 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="header">
+        <div class="row">
+          <div class="col-md-10 title-form">{{ pageTitle }}</div>
+          <div class="col-md-2" style="text-align: right">
+            <button
+              type="button"
+              (click)="Voltar()"
+              class="btn btn-fill btn-default"
+              title="Voltar"
+            >
+              <span class="btn-label">
+                <i class="fa fa-arrow-left"></i>
+              </span>
+              Voltar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <form [formGroup]="resourceForm">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Id</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  readonly="true"
+                  value="0"
+                  name="id"
+                  placeholder=""
+                  id="id"
+                  name="id"
+                  formControlName="id"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Login<span class="star">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userName"                  
+                  name="userName"
+                  formControlName="userName"
+                  [brmasker]="{ mask: '', len: 10, userCaracters: false }"
+                  maxlength="10"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    resourceForm.get('userName').invalid &&
+                    resourceForm.get('userName').touched
+                  "
+                >
+                  <div *ngIf="resourceForm.get('userName').errors['required']">
+                    Campo Obrigatório.
+                  </div>
+                  <div *ngIf="resourceForm.get('userName').errors['minlength']">
+                    Digite no mínimo 4 caracteres.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Senha<span class="star">*</span></label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="senha"
+                  name="senha"
+                  formControlName="senha"                 
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    resourceForm.get('senha').invalid &&
+                    resourceForm.get('senha').touched
+                  "
+                >
+                  <div *ngIf="resourceForm.get('senha').errors['required']">
+                    Campo Obrigatório.
+                  </div>
+                  <div *ngIf="resourceForm.get('senha').errors['minlength']">
+                    Digite no mínimo 4 caracteres.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Nome<span class="star">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nome"
+                  name="nome"
+                  formControlName="nome"
+                  maxlength="80"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    resourceForm.get('nome').invalid &&
+                    resourceForm.get('nome').touched
+                  "
+                >
+                  <div
+                    *ngIf="resourceForm.get('nome').errors['required']"
+                  >
+                    Campo Obrigatório.
+                  </div>
+                  <div
+                    *ngIf="
+                      resourceForm.get('nome').errors['minlength']
+                    "
+                  >
+                    Digite no mínimo 2 caracteres.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Ativo</label>
+                <select
+                  class="form-control"
+                  name="ativo"
+                  id="ativo"
+                  formControlName="ativo"
+                >
+                  <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                </select>
+              </div>
+            </div>        
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Perfil de Acesso<span class="star">*</span></label>
+                <select
+                  class="form-control"
+                  name="idPerfil"
+                  id="idPerfil"
+                  formControlName="idPerfil"
+                >
+                  <option value="">... Selecione ...</option>
+                  <option *ngFor="let item of perfis | async" [value]="item.id"
+                    >{{ item.nome }} ({{ item.id }})</option
+                  >
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    resourceForm.get('idPerfil').invalid &&
+                    resourceForm.get('idPerfil').touched
+                  "
+                >
+                  <div *ngIf="resourceForm.get('idPerfil').errors['required']">
+                    Campo Obrigatório.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class="form-group">
+                <label>Email<span class="star">*</span></label>
+                <input type="text" class="form-control" name="email" id="email" formControlName="email">                
+                <div class="text-danger" *ngIf="resourceForm.get('email').invalid && resourceForm.get('email').touched">
+                  <div *ngIf="resourceForm.get('email').errors['email']">
+                    Campo Obrigatório.
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </div>   
+        </form>
+        <!-- {{this.resourceForm.invalid | json}} -->
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="form-group barra-opcoes-cadastro">
+              <button
+                [appJsPermissao]="{
+                  permissao: 'EXCLUIR',
+                  opcao: 'CADUSUARIOS'
+                }"
+                *ngIf="resource.id != 2"
+                [disabled]="!resource.id"
+                class="btn btn-outline-danger btn-wd"
+                (click)="ExcluirUsuario(resource)"
+                title="Excluir Registro"
+              >
+                <i
+                  class="fa fa-trash-o icon-barra-cadastros"
+                  aria-hidden="true"
+                ></i>
+                Excluir
+              </button>
+              <button
+                [appJsPermissao]="{
+                  permissao: 'EDITAR',
+                  opcao: 'CADUSUARIOS'
+                }"
+                *ngIf="resource.id"
+                [disabled]="submittingForm || resourceForm.invalid"
+                (click)="submitForm()"
+                class="btn btn-wd btn-outline-dark"
+                title="Salvar Registro"
+              >
+                <i
+                  class="fa fa-floppy-o icon-barra-cadastros"
+                  aria-hidden="true"
+                ></i>
+                Salvar
+              </button>
+              <button
+                [appJsPermissao]="{
+                  permissao: 'ADICIONAR',
+                  opcao: 'CADUSUARIOS'
+                }"
+                *ngIf="!resource.id"
+                [disabled]="submittingForm || resourceForm.invalid"
+                (click)="submitForm()"
+                class="btn btn-wd btn-outline-dark"
+                title="Salvar Registro"
+              >
+                <i
+                  class="fa fa-plus-circle icon-barra-cadastros"
+                  aria-hidden="true"
+                ></i>
+                Cadastrar
+              </button>
+              <button
+                [appJsPermissao]="{
+                  permissao: 'ADICIONAR',
+                  opcao: 'CADUSUARIOS'
+                }"
+                *ngIf="resource.id > 0"
+                class="btn btn-wd btn-outline-success"
+                (click)="Novo()"
+                title="Novo Registro"
+              >
+                <i
+                  class="fa fa-plus-circle icon-barra-cadastros"
+                  aria-hidden="true"
+                ></i>
+                Novo
+              </button>
+              <button
+                *ngIf="!resource.id"
+                class="btn btn-wd btn-outline-success"
+                (click)="reset()"
+                title="Limpar Registro"
+              >
+                <i
+                  class="fa fa-eraser icon-barra-cadastros"
+                  aria-hidden="true"
+                ></i>
+                Limpar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end card -->
+  </div>
+</div>

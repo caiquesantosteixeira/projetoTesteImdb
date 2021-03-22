@@ -1,0 +1,23 @@
+ <!-- Paginação -->
+ <div class="row">
+  <div class="col-md-12 text-center">
+     <ul *ngIf="pagina.pages && pagina.pages.length" class="pagination">
+       <li [ngClass]="{disabled:pagina.currentPage === 1}">
+           <a (click)="setPage(1, 'inicio')">Início</a>
+       </li>
+       <li [ngClass]="{disabled:pagina.currentPage === 1}">
+           <a (click)="setPage(pagina.currentPage - 1, 'anterior')">Anterior</a>
+       </li>
+
+       <li *ngFor="let page of pagina.pages" [ngClass]="{active:pagina.currentPage === page}">
+           <a (click)="setPage(page, 'pages')">{{page}}</a>
+       </li>
+       <li [ngClass]="{disabled:pagina.currentPage === pagina.totalPages}">
+           <a (click)="setPage(pagina.currentPage + 1, 'proximo')">Próximo</a>
+       </li>
+       <li [ngClass]="{disabled:pagina.currentPage === pagina.totalPages}">
+           <a (click)="setPage(pagina.totalPages, 'Anterior')">Último</a>
+       </li>
+     </ul>
+   </div>
+ </div>
