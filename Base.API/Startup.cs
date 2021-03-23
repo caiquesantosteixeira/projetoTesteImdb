@@ -1,8 +1,7 @@
 using Base.API.Configuracoes;
-using Base.Infra.Context;
-using Base.Infra.Helpers.Configuracoes;
-using Base.Infra.Migrations.Configs;
-using Base.Infra.Migrations.Enum;
+using Base.Repository.Context;
+using Base.Repository.Helpers.Configuracoes;
+using Base.Repository.Migrations.Configs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -27,29 +26,16 @@ namespace Base.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var tipoBanco = EBanco.SQLSERVER; 
-            
-            var conexao = Configuration.GetConnectionString(tipoBanco.GetEnumDescription());             
-            services.AddDbContext<DataContext>(opt => 
-            {
-                if (EBanco.SQLSERVER == tipoBanco)
-                {
-                    opt.UseSqlServer(conexao, b => {
-                        b.MigrationsAssembly("Base.Infra");
-                        b.UseRowNumberForPaging();
-                    });
-                }
-                else
-                {
-                    opt.UseNpgsql(conexao, b => b.MigrationsAssembly("Base.Infra"));
-                }             
-            });            
+
+
+            string conexao = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataContext>(a => a.UseSqlServer(conexao));
 
             // Checa se o Banco existe/Cria antes de executar as Migrations           
-            CheckDatabase.DatabaseExist(conexao, tipoBanco);           
+            CheckDatabase.DatabaseExist(conexao);           
 
             // configuração do Identity
-            services.AddIdentityConfig(Configuration, tipoBanco);
+            services.AddIdentityConfig(Configuration);
 
             // Injeção de dependencias
             services.AddDependenciasConfig();
@@ -61,7 +47,7 @@ namespace Base.API
             InicializaDatabase.ExecutaIdentityMigrations();
 
             // Roda os Migrations
-            MigrationsDataBase.RunMigration(conexao, tipoBanco);
+            //MigrationsDataBase.RunMigration(conexao, tipoBanco);
 
             services.AddCors(o => o.AddPolicy("EnableCors", builder => {
                 builder.AllowAnyOrigin()

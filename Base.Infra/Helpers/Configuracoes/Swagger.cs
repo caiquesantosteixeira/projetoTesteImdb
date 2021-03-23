@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace Base.Infra.Helpers.Configuracoes
+namespace Base.Repository.Helpers.Configuracoes
 {
     public static class Swagger
     {

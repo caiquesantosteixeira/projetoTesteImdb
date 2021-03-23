@@ -10,7 +10,7 @@
 
         public override void Up()
         {
-            Execute.EmbeddedScript("CriacaoBanco_Tabelas.sql");
+            Execute.Sql("");
         }
     }
 }

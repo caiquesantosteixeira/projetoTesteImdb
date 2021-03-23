@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Base.Infra.Helpers.Security
+namespace Base.Repository.Helpers.Security
 {
     public class FiltroAutorizacao
     {

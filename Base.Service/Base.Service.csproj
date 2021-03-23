@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentMigrator" Version="3.2.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\_scripts\" />
+    <ProjectReference Include="..\Base.Domain\Base.Domain.csproj" />
+    <ProjectReference Include="..\Base.Infra\Base.Repository.csproj" />
   </ItemGroup>
 
 </Project>

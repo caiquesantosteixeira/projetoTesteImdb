@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using System.Data.Common;
 
-namespace Base.Infra.Context
+namespace Base.Repository.Context
 {
     public class ADOPostgresSQLContext
     {

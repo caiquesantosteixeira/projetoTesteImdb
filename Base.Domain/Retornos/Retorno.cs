@@ -1,4 +1,4 @@
-﻿using Base.Domain.Commands.Interfaces;
+﻿using Base.Domain.DTOS.Interfaces;
 
 namespace Base.Domain.Retornos
 {

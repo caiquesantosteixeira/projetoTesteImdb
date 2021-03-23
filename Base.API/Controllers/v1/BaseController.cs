@@ -1,5 +1,5 @@
 ﻿using Base.Domain.Repositorios.Logging;
-using Base.Infra.Helpers;
+using Base.Repository.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

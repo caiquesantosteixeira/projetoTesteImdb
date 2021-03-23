@@ -1,10 +1,9 @@
-﻿using Base.Domain.Repositorios.Usuario;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Base.Infra.Repositorios.Usuario
+namespace Base.Repository.Repositorios.Usuario
 {
     public class UserIdentity : IUserIdentity
     {

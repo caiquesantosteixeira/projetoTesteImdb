@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.API", "Base.API\Base.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Domain", "Base.Domain\Base.Domain.csproj", "{0EF6A61A-EA42-4B58-9964-0761167090E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Infra", "Base.Infra\Base.Infra.csproj", "{3206AE68-6656-4EDC-A3E5-235D1CE3E15B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Repository", "Base.Infra\Base.Repository.csproj", "{3206AE68-6656-4EDC-A3E5-235D1CE3E15B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentMigrator.SqlServer", "FluentMigrator.SqlServer\FluentMigrator.SqlServer.csproj", "{E191B74D-2A0E-425E-BA75-09B8DB3EC9D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentMigrator.PostegreSql", "FluentMigrator.PostegreSql\FluentMigrator.PostegreSql.csproj", "{5C6337E8-A75B-49BA-96AB-8507D3DE04E3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Domain.Shared", "Base.Domain.Shared\Base.Domain.Shared.csproj", "{68519FD3-96FE-40AD-81EB-051469A826A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Service", "Base.Service\Base.Service.csproj", "{396A10D1-9257-40C6-BAC1-A36245E447FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,14 @@ Global
 		{E191B74D-2A0E-425E-BA75-09B8DB3EC9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E191B74D-2A0E-425E-BA75-09B8DB3EC9D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E191B74D-2A0E-425E-BA75-09B8DB3EC9D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C6337E8-A75B-49BA-96AB-8507D3DE04E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C6337E8-A75B-49BA-96AB-8507D3DE04E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C6337E8-A75B-49BA-96AB-8507D3DE04E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C6337E8-A75B-49BA-96AB-8507D3DE04E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68519FD3-96FE-40AD-81EB-051469A826A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68519FD3-96FE-40AD-81EB-051469A826A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68519FD3-96FE-40AD-81EB-051469A826A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68519FD3-96FE-40AD-81EB-051469A826A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396A10D1-9257-40C6-BAC1-A36245E447FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396A10D1-9257-40C6-BAC1-A36245E447FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396A10D1-9257-40C6-BAC1-A36245E447FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396A10D1-9257-40C6-BAC1-A36245E447FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

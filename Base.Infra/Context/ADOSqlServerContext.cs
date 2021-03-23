@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace Base.Infra.Context
+namespace Base.Repository.Context
 {
     public class ADOSqlServerContext
     {        

@@ -1,8 +1,8 @@
 ﻿using Base.Domain.Shared.Entidades.Usuario;
 using Base.Domain.ValueObject.Config;
-using Base.Infra.Context;
-using Base.Infra.Helpers.Extensoes;
-using Base.Infra.Migrations.Enum;
+using Base.Repository.Context;
+using Base.Repository.Helpers.Extensoes;
+using Base.Repository.Migrations.Enum;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,22 +17,10 @@ namespace Base.API.Configuracoes
     public static class IdentityConfig
     {
         public static IServiceCollection AddIdentityConfig(this IServiceCollection services,
-            IConfiguration configuration, EBanco banco)
+            IConfiguration configuration)
         {
-            services.AddDbContext<IdentityDataContext>(opt =>
-            {
-                if(EBanco.SQLSERVER == banco)
-                {
-                    opt.UseSqlServer(configuration.GetConnectionString(banco.GetEnumDescription()), b => {
-                        b.MigrationsAssembly("Base.Infra");
-                        b.UseRowNumberForPaging();
-                    });
-                }
-                else
-                {
-                    opt.UseNpgsql(configuration.GetConnectionString(banco.GetEnumDescription()), b => b.MigrationsAssembly("Base.Infra"));
-                }
-            });
+            string conexao = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<IdentityDataContext>(a => a.UseSqlServer(conexao));
 
             services.AddDefaultIdentity<Usuarios>(opt => 
                     {

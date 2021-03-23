@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Base.Infra.Repositorios.Log
+namespace Base.Repository.Repositorios.Log
 {
     public class LogRepository : ILog
     {

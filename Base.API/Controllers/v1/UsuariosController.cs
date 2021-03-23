@@ -1,10 +1,10 @@
-﻿using Base.Domain.Commands.Usuario;
-using Base.Domain.Commands.Usuario.Enums;
-using Base.Domain.DTOs.Usuario;
-using Base.Domain.Handler.Usuario;
-using Base.Domain.Repositorios.Usuario;
+﻿using Base.Domain.DTOs.Usuario;
+using Base.Domain.DTOS.Usuario;
+using Base.Domain.Enums.Usuario.Enums;
 using Base.Domain.Retornos;
-using Base.Infra.Helpers.Security;
+using Base.Repository.Helpers.Security;
+using Base.Repository.Repositorios.Usuario;
+using Base.Service.Contracts.Usuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,20 +16,20 @@ namespace Base.API.Controllers.v1
     [ApiController]
     public class UsuariosController : BaseController
     {
-        private readonly IUsuario _repositorioLogin;       
+        private readonly IUsuarioService _repositorioLogin;       
 
-        public UsuariosController(IUsuario repositorioLogin)
+        public UsuariosController(IUsuarioService repositorioLogin)
         {
             _repositorioLogin = repositorioLogin;
         }
         
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> GetAll([FromServices] IUsuario repository)
+
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var retorno = await repository.GetAll();
+                var retorno = await _repositorioLogin.GetAll();
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -42,32 +42,13 @@ namespace Base.API.Controllers.v1
             }
         }
 
-        [HttpGet("paginacao")]
-        [Authorize]
-        public async Task<IActionResult> GetPage([FromServices] IUsuario repository, int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null)
-        {
-            try
-            {
-                var retorno = await repository.DadosPaginado(QtdPorPagina, PagAtual, Filtro, ValueFiltro);
-                if (retorno.Sucesso == false)
-                    return BadRequest(retorno);
-
-                return Ok(retorno);
-            }
-            catch (Exception ex)
-            {
-                GerarLog("Erro ao obter paginacao do usuário", ex: ex);
-                return StatusCode(500, ex.ToString());
-            }
-        }
-
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<IActionResult> Get([FromServices] IUsuario repository, string id)
+
+        public async Task<IActionResult> Get( string id)
         {
             try
             {
-                var retorno = await repository.GetById(id);
+                var retorno = await _repositorioLogin.Get(id);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -80,13 +61,12 @@ namespace Base.API.Controllers.v1
             }
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UsuarioCommand command, [FromServices] UsuarioHandler handler)
+        public async Task<IActionResult> Post([FromBody] UsuarioDTO user )
         {
             try
             {               
-                var retorno = (Retorno)await handler.Handle(command, ELogin.CADASTRAR);
+                var retorno = (Retorno)await _repositorioLogin.Persistir(user,ELogin.CADASTRAR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -101,11 +81,11 @@ namespace Base.API.Controllers.v1
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> Put([FromBody] UsuarioCommand command, [FromServices] UsuarioHandler handler)
+        public async Task<IActionResult> Put([FromBody] UsuarioDTO user)
         {
             try
             {
-                var retorno = (Retorno) await handler.Handle(command, ELogin.ATUALIZAR);
+                var retorno = (Retorno)await _repositorioLogin.Persistir(user, ELogin.ATUALIZAR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -121,11 +101,11 @@ namespace Base.API.Controllers.v1
         [HttpDelete("{id}")]
         [Authorize]
         [ClaimsAuthorize("CADUSUARIOS", "EXCLUIR")]
-        public async Task<IActionResult> Delete([FromBody] UsuarioCommand command, [FromServices] UsuarioHandler handler)
+        public async Task<IActionResult> Delete([FromBody] UsuarioDTO user)
         {
             try
             {
-                var retorno = (Retorno)await handler.Handle(command, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _repositorioLogin.Persistir(user, ELogin.EXCLUIR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 

@@ -1,26 +1,19 @@
-﻿using Base.Infra.Migrations.Enum;
+﻿using Base.Repository.Migrations.Enum;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Base.Infra.Helpers.Configuracoes
+namespace Base.Repository.Helpers.Configuracoes
 {
     public class MigrationsDataBase
     {
         public static void RunMigration(string conexao, EBanco banco)
         {
             IServiceProvider serviceProvider = null;
-            switch (banco)
-            {
-                case EBanco.SQLSERVER:
-                    serviceProvider = CreateServicesSqlserver(conexao);
-                    break;
-                case EBanco.POSTGRESSQL:
-                    serviceProvider = CreateServicesPostgresSql(conexao);
-                    break;
-                default:
-                    break;
-            }
+           
+             serviceProvider = CreateServicesSqlserver(conexao);
+         
+            
             using (var scope = serviceProvider.CreateScope())
             {
                 UpdateDatabase(scope.ServiceProvider);
@@ -43,21 +36,7 @@ namespace Base.Infra.Helpers.Configuracoes
                     .BuildServiceProvider(false);
         }
 
-        private static IServiceProvider CreateServicesPostgresSql(string conexao)
-        {
-            return new ServiceCollection()
-                // Add common FluentMigrator services
-                .AddFluentMigratorCore()
-                .ConfigureRunner(rb => rb
-                    .AddPostgres10_0()
-                    .WithGlobalConnectionString(conexao)
-                    .ScanIn(typeof(FluentMigrator.PostegreSql.Migrations.PG_00001_Database).Assembly)
-                    .For.Migrations()
-                    .For.EmbeddedResources()
-                    )
-                    .AddLogging(lb => lb.AddFluentMigratorConsole())
-                    .BuildServiceProvider(false);
-        }
+ 
 
 
         private static void UpdateDatabase(IServiceProvider serviceProvider)

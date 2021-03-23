@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Base.Infra.Helpers
+namespace Base.Repository.Helpers
 {
     public static class LocalizarService
     {

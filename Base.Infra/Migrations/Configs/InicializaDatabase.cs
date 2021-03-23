@@ -1,6 +1,6 @@
 ﻿using Base.Domain.Shared.Entidades.Usuario;
-using Base.Infra.Context;
-using Base.Infra.Helpers;
+using Base.Repository.Context;
+using Base.Repository.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using Util.Log;
 
-namespace Base.Infra.Migrations.Configs
+namespace Base.Repository.Migrations.Configs
 {
     public class InicializaDatabase
     {

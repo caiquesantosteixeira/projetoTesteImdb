@@ -1,6 +1,6 @@
 ﻿using Base.Domain.Repositorios.Logging;
-using Base.Infra.Context;
-using Base.Infra.Helpers;
+using Base.Repository.Context;
+using Base.Repository.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

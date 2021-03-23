@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Base.Infra.Migrations.Enum
+namespace Base.Repository.Migrations.Enum
 {
     public enum EBanco
     {

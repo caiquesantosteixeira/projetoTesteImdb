@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Base.Infra.Helpers.Paginacao
+namespace Base.Repository.Helpers.Paginacao
 {
     public static class Paginacao
     {

@@ -1,14 +1,13 @@
-﻿using Base.Domain.Commands.Usuario;
-using Base.Domain.DTOs.Usuario;
+﻿using Base.Domain.DTOs.Usuario;
+using Base.Domain.DTOS.Usuario;
 using Base.Domain.Repositorios.Logging;
-using Base.Domain.Repositorios.Usuario;
 using Base.Domain.Retornos;
 using Base.Domain.Shared.DTOs.Usuario;
 using Base.Domain.Shared.Entidades.Usuario;
 using Base.Domain.ValueObject.Basicos;
 using Base.Domain.ValueObject.Config;
-using Base.Infra.Context;
-using Base.Infra.Helpers.Paginacao;
+using Base.Repository.Context;
+using Base.Repository.Helpers.Paginacao;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -21,7 +20,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Infra.Repositorios.Usuario
+namespace Base.Repository.Repositorios.Usuario
 {
     public class LoginRepository : IUsuario
     {    
@@ -126,7 +125,7 @@ namespace Base.Infra.Repositorios.Usuario
             try
             {
 
-                var usuario = await _ctx.Usuarios.Select(a => new UsuarioCommand
+                var usuario = await _ctx.Usuarios.Select(a => new UsuarioDTO
                 {
                     Id = a.Id,
                     UserName = a.UserName,
@@ -147,7 +146,7 @@ namespace Base.Infra.Repositorios.Usuario
             }
         }
 
-        public async Task<Retorno> Cadastrar(UsuarioCommand command)
+        public async Task<Retorno> Cadastrar(UsuarioDTO command)
         {
             try
             {
@@ -191,7 +190,7 @@ namespace Base.Infra.Repositorios.Usuario
             }            
         }
 
-        public async Task<Retorno> Atualizar(UsuarioCommand command)
+        public async Task<Retorno> Atualizar(UsuarioDTO command)
         {
             try
             {
@@ -241,7 +240,7 @@ namespace Base.Infra.Repositorios.Usuario
             }
         }
 
-        public async Task<Retorno> AlterarSenha(AlterarSenhaCommand command)
+        public async Task<Retorno> AlterarSenha(AlterarSenhaDTO command)
         {
             try
             {
@@ -304,8 +303,9 @@ namespace Base.Infra.Repositorios.Usuario
                     return new Retorno(false, "Não Autorizado", "Não é permitido excluir usuário administrador.");
                 }
 
-                _ctx.Usuarios.Remove(usuario);
-                _ctx.SaveChanges();               
+                usuario.Ativo = false;
+                _ctx.Usuarios.Update(usuario);
+                _ctx.SaveChanges();
                 return new Retorno (true, "Usuário Excluido.", "Usuário Excluido.");
 
                 }
@@ -343,7 +343,7 @@ namespace Base.Infra.Repositorios.Usuario
         {
             try
             {
-                var permissoes = await _ctx.ViewPerfilUsuario.AsNoTracking().Where(a => a.IdPerfil == 1).ToListAsync();
+                //var permissoes = await _ctx.ViewPerfilUsuario.AsNoTracking().Where(a => a.IdPerfil == 1).ToListAsync();
 
                 List<Claim> claims = new List<Claim>();
                 // claims.Add(new Claim(JwtRegisteredClaimNames.Sub, login.UserToken.Id));
@@ -355,14 +355,14 @@ namespace Base.Infra.Repositorios.Usuario
                 claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
                 claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
 
-                List<Claim> permClaim = new List<Claim>();
-                foreach (var item in permissoes)
-                {
-                    if (!string.IsNullOrEmpty(item.Permissao))
-                    {
-                        claims.Add(new Claim("Roles", item.Permissao));
-                    }
-                }
+                //List<Claim> permClaim = new List<Claim>();
+                //foreach (var item in permissoes)
+                //{
+                //    if (!string.IsNullOrEmpty(item.Permissao))
+                //    {
+                //        claims.Add(new Claim("Roles", item.Permissao));
+                //    }
+                //}
 
                 var identityClaims = new ClaimsIdentity();
                 identityClaims.AddClaims(claims);
