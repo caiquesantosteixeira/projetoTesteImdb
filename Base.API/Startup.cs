@@ -47,7 +47,7 @@ namespace Base.API
             InicializaDatabase.ExecutaIdentityMigrations();
 
             // Roda os Migrations
-            //MigrationsDataBase.RunMigration(conexao, tipoBanco);
+            MigrationsDataBase.RunMigration(conexao);
 
             services.AddCors(o => o.AddPolicy("EnableCors", builder => {
                 builder.AllowAnyOrigin()

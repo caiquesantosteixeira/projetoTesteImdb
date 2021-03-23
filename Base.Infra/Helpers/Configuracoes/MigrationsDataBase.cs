@@ -7,7 +7,7 @@ namespace Base.Repository.Helpers.Configuracoes
 {
     public class MigrationsDataBase
     {
-        public static void RunMigration(string conexao, EBanco banco)
+        public static void RunMigration(string conexao)
         {
             IServiceProvider serviceProvider = null;
            
