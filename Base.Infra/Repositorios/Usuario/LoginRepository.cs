@@ -8,6 +8,7 @@ using Base.Domain.ValueObject.Basicos;
 using Base.Domain.ValueObject.Config;
 using Base.Repository.Context;
 using Base.Repository.Helpers.Paginacao;
+using Base.Rpepository.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -26,14 +27,14 @@ namespace Base.Repository.Repositorios.Usuario
     {    
         private readonly SignInManager<Usuarios> _signInManager;
         private readonly UserManager<Usuarios> _userManager;
-        private readonly DataContext _ctx;
+        private readonly testeimdbContext _ctx;
         private readonly AppSettings _appSettings; 
         private readonly ILog _log;
 
         public LoginRepository(
             SignInManager<Usuarios> signInManager,
             UserManager<Usuarios> userManager,
-            DataContext context,
+            testeimdbContext context,
             IOptions<AppSettings> appSettings,
             ILog log
             )

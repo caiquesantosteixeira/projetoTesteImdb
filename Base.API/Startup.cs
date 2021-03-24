@@ -2,6 +2,7 @@ using Base.API.Configuracoes;
 using Base.Repository.Context;
 using Base.Repository.Helpers.Configuracoes;
 using Base.Repository.Migrations.Configs;
+using Base.Rpepository.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -29,7 +30,7 @@ namespace Base.API
 
 
             string conexao = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataContext>(a => a.UseSqlServer(conexao));
+            services.AddDbContext<testeimdbContext>(a => a.UseSqlServer(conexao));
 
             // Checa se o Banco existe/Cria antes de executar as Migrations           
             CheckDatabase.DatabaseExist(conexao);           

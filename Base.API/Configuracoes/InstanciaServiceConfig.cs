@@ -1,6 +1,7 @@
 ﻿using Base.Domain.Repositorios.Logging;
 using Base.Repository.Context;
 using Base.Repository.Helpers;
+using Base.Rpepository.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +13,8 @@ namespace Base.API.Configuracoes
         {
            
             var serviceProvider = services.BuildServiceProvider();
-            var serv1 = serviceProvider.GetService<DataContext>();
-            LocalizarService.Registrar<DataContext>("DataContext", serv1);
+            var serv1 = serviceProvider.GetService<testeimdbContext>();
+            LocalizarService.Registrar<testeimdbContext>("testeimdbContext", serv1);
 
             var serv2 = serviceProvider.GetService<ILog>();
             LocalizarService.Registrar<ILog>("ILog", serv2);
