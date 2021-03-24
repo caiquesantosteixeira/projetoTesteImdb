@@ -26,11 +26,26 @@ namespace Base.API.Configuracoes
             services.AddTransient<IDiretorService, DiretorService>();
             services.AddTransient<IFilmeService, FilmeService>();
 
+
+            services.AddTransient<IFilmeXEscritorService, FilmeXEscritorService>();
+            services.AddTransient<IFilmeXGeneroService, FilmeXGeneroService>();
+            services.AddTransient<IFilmeXAtorService, FilmeXAtorService>();
+            services.AddTransient<IFilmeXDiretorService, FilmeXDiretorService>();
+            services.AddTransient<IFilmeXNotaService, FilmeXNotaService>();
+
             services.AddTransient<IEscritor, EscritorRepository>();
             services.AddTransient<IGenero, GeneroRepository>();
             services.AddTransient<IAtor, AtorRepository>();
             services.AddTransient<IDiretor, DiretorRepository>();
             services.AddTransient<IFilme, FilmeRepository>();
+
+            services.AddTransient<IFilmeXEscritor, FilmeXEscritorRepository>();
+            services.AddTransient<IFilmeXGenero, FilmeXGeneroRepository>();
+            services.AddTransient<IFilmeXAtor, FilmeXAtorRepository>();
+            services.AddTransient<IFilmeXDiretor, FilmeXDiretorRepository>();
+            services.AddTransient<IFilmeXNota, FilmeXNotaRepository>();
+
+
             return services;
         }
     }

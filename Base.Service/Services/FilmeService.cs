@@ -49,7 +49,11 @@ namespace Base.Service.Usuario
 
             var Filme = new Filme
             {
-                Nome = command.Nome
+                Nome = command.Nome,
+                Resumo = command.Resumo,
+                Tempo = command.Tempo,
+                Ano = command.Ano,
+                Foto = command.Foto
             };
 
             return await _repository.Cadastrar(Filme);
@@ -64,7 +68,11 @@ namespace Base.Service.Usuario
             var Filme = new Filme
             {
                 Id = command.Id,
-                Nome = command.Nome
+                Nome = command.Nome,
+                Resumo = command.Resumo,
+                Tempo = command.Tempo,
+                Ano = command.Ano,
+                Foto = command.Foto
             };
 
             return await _repository.Atualizar(Filme);

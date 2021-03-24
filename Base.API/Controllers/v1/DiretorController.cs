@@ -16,11 +16,11 @@ namespace Base.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class FilmeController : BaseController
+    public class DiretorController : BaseController
     {
-        private readonly IFilmeService _rep;
+        private readonly IDiretorService _rep;
 
-        public FilmeController(IFilmeService repositorioLogin)
+        public DiretorController(IDiretorService repositorioLogin)
         {
             _rep = repositorioLogin;
         }
@@ -38,7 +38,7 @@ namespace Base.API.Controllers.v1
             }
             catch (Exception ex)
             {
-                GerarLog("Erro ao obter filme", ex: ex);
+                GerarLog("Erro ao obter diretor", ex: ex);
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -57,17 +57,17 @@ namespace Base.API.Controllers.v1
             }
             catch (Exception ex)
             {
-                GerarLog("Erro ao obter paginacao do filme", ex: ex);
+                GerarLog("Erro ao obter paginacao do diretor", ex: ex);
                 return StatusCode(500, ex.ToString());
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] FilmeDTO filme )
+        public async Task<IActionResult> Post([FromBody] DiretorDTO diretor)
         {
             try
-            {               
-                var retorno = (Retorno)await _rep.Persistir(filme, ELogin.CADASTRAR);
+            {
+                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.CADASTRAR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -75,17 +75,17 @@ namespace Base.API.Controllers.v1
             }
             catch (Exception ex)
             {
-                GerarLog("Erro ao Cadstrar o filme", ex: ex);
+                GerarLog("Erro ao Cadstrar o diretor", ex: ex);
                 return StatusCode(500, ex.ToString());
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody]FilmeDTO filme )
+        public async Task<IActionResult> Put([FromBody] DiretorDTO diretor)
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filme, ELogin.ATUALIZAR);
+                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.ATUALIZAR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -93,17 +93,17 @@ namespace Base.API.Controllers.v1
             }
             catch (Exception ex)
             {
-                GerarLog("Erro ao Atualizar o filme", ex: ex);
+                GerarLog("Erro ao Atualizar o diretor", ex: ex);
                 return StatusCode(500, ex.ToString());
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody] FilmeDTO filme)
+        public async Task<IActionResult> Delete([FromBody] DiretorDTO diretor)
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filme, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.EXCLUIR);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -111,7 +111,7 @@ namespace Base.API.Controllers.v1
             }
             catch (Exception ex)
             {
-                GerarLog("Erro ao Excluir o filme", ex: ex);
+                GerarLog("Erro ao Excluir o diretor", ex: ex);
                 return StatusCode(500, ex.ToString());
             }
         }
