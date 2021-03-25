@@ -8,7 +8,7 @@ namespace Base.Service.Contracts
 {
     public interface IFilmeService
     {
-        Task<ICommandResult> Persistir(FilmeDTO command, ELogin acoes);
+        Task<ICommandResult> Persistir(FilmeInputDTO command, ELogin acoes);
         Task<Retorno> GetAll();
         Task<Retorno> Get(string id);
 

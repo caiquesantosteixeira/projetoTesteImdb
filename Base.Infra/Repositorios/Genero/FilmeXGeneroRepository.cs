@@ -17,11 +17,12 @@ namespace Base.Repository.Repositorios.Usuario
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
-
-        public FilmeXGeneroRepository(testeimdbContext context, ILog log)
+        private readonly IUserIdentity _userIdentity;
+        public FilmeXGeneroRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
         {
             _ctx = context;
             _log = log;
+            _userIdentity = userIdentity;
         }
 
         public async Task<Retorno> GetAll()
@@ -47,6 +48,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Cadastrar(FilmeXgenero filmeXGenero)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 _ctx.FilmeXgenero.Add(filmeXGenero);
@@ -63,6 +68,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Atualizar(FilmeXgenero filmeXGenero)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 var usuExist = await _ctx.FilmeXgenero.Select(a => new FilmeXGeneroDTO
@@ -87,6 +96,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Excluir(int id)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 var FilmeXGenero = await _ctx.FilmeXgenero.FirstOrDefaultAsync(a => a.Id.Equals(id));

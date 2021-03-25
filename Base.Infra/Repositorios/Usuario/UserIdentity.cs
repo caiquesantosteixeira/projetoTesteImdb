@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Base.Rpepository.Context;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Base.Repository.Repositorios.Usuario
@@ -8,18 +10,36 @@ namespace Base.Repository.Repositorios.Usuario
     public class UserIdentity : IUserIdentity
     {
         private readonly IHttpContextAccessor _accessor;
-        public UserIdentity(IHttpContextAccessor accessor)
+        private readonly testeimdbContext _ctx;
+        public UserIdentity(IHttpContextAccessor accessor, testeimdbContext context)
         {
             _accessor = accessor;
+            _ctx = context;
         }
         public string Nome => _accessor.HttpContext.User.Identity.Name;
         public string Email => GetUserEmail();
 
         public bool Administrador => GetUserIsAdministrador();
 
-        public Guid GetUserId()
+
+        public bool ValidarUsuario()
         {
-            return IsAuthenticated() ? Guid.Parse(_accessor.HttpContext.User.GetUserId()) : Guid.Empty;
+            var username = _accessor.HttpContext.User.GetUserId();
+            var usuario = _ctx.Usuarios.FirstOrDefault(x => x.UserName.Equals(username));
+
+            if (usuario != null)
+            {
+                return usuario.Administrador ?? false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string GetUserId()
+        {
+            return IsAuthenticated() ? _accessor.HttpContext.User.GetUserId() : string.Empty;
         }
 
         public bool GetUserIsAdministrador()

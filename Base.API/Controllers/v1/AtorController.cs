@@ -16,6 +16,7 @@ namespace Base.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class AtorController : BaseController
     {
         private readonly IAtorService _rep;       
@@ -63,6 +64,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Post([FromBody] AtorDTO ator )
         {
             try

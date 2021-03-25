@@ -99,9 +99,10 @@ namespace Base.Service.Usuario
             return await _repository.Excluir(command.Id);
         }
 
-        public async Task<Retorno> GetAll()
+        //filtro por NOME
+        public async Task<Retorno> GetAll(int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null)
         {
-            return  await _repository.GetAll();
+            return  await _repository.DadosPaginado( QtdPorPagina,  PagAtual,  Filtro , ValueFiltro );
         }
 
         public async Task<Retorno> Logar(LoginDTO login)

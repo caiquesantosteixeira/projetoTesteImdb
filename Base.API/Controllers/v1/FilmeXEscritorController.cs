@@ -16,6 +16,7 @@ namespace Base.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class FilmeXEscritorController : BaseController
     {
         private readonly IFilmeXEscritorService _rep;       

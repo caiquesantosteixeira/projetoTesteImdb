@@ -1,13 +1,15 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Base.Domain.DTOs
 {
     public class FilmeXatorDTO : Notifiable
     {
         public int Id { get; set; }
+        [Required]
         public int IdFilme { get; set; }
+        [Required]
         public int IdAtor { get; set; }
 
         public void Validate()

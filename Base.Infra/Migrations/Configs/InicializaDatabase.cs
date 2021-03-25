@@ -54,17 +54,17 @@ namespace Base.Repository.Migrations.Configs
 
                 var usu1 = new Usuarios();
                 usu1.Id = "666ef5e2-b9b3-4691-8449-52c6444bb6b2";
-                usu1.UserName = "jamsoft";
-                usu1.NormalizedUserName = "JAMSOFT";
-                usu1.Email = "scariodes1895@gmail.com";
-                usu1.NormalizedEmail = "SCARIODES1895@GMAIL.COM";
+                usu1.UserName = "caique";
+                usu1.NormalizedUserName = "caique";
+                usu1.Email = "caiquesantosteixeira@gmail.com";
+                usu1.NormalizedEmail = "caiquesantosteixeira@GMAIL.COM";
                 usu1.EmailConfirmed = true;
                 usu1.PasswordHash = "AQAAAAEAACcQAAAAELaNWxeWj9tBjiw13tQTvOVbd7nmDhof/3Wp2CXQmyBvKO0JyuZ3vBzf3QXfTzOlIA==";
                 usu1.SecurityStamp = "5X5F7RIXE5DHAIWEM4MCGM7QRFQOK67C";
                 usu1.ConcurrencyStamp = "6625979f-d1c1-46fb-aa54-4e094badd8bd";
                 usu1.Ativo = true;
                 usu1.IdPerfil = 1;
-                usu1.Nome = "Paulo Henrique";     
+                usu1.Nome = "caique";     
                 usuarios.Add(usu1);
 
                 db.Usuarios.AddRange(usuarios);

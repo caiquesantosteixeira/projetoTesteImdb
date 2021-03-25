@@ -24,12 +24,12 @@ namespace Base.API.Controllers.v1
         }
         
         [HttpGet]
-
-        public async Task<IActionResult> GetAll()
+        [Authorize]
+        public async Task<IActionResult> GetAll(int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null)
         {
             try
             {
-                var retorno = await _repositorioLogin.GetAll();
+                var retorno = await _repositorioLogin.GetAll( QtdPorPagina,  PagAtual,  Filtro ,  ValueFiltro );
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -43,7 +43,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpGet("{id}")]
-
+        [Authorize]
         public async Task<IActionResult> Get( string id)
         {
             try

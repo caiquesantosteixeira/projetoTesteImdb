@@ -1,10 +1,14 @@
 ﻿using Base.Domain.DTOs;
+using Base.Domain.DTOS.Usuario;
 using Base.Domain.Entidades;
 using Base.Domain.Repositorios.Logging;
 using Base.Domain.Retornos;
+using Base.Domain.Shared.Entidades.Usuario;
 using Base.Repository.Contracts;
 using Base.Repository.Helpers.Paginacao;
 using Base.Rpepository.Context;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -17,11 +21,12 @@ namespace Base.Repository.Repositorios.Usuario
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
-
-        public AtorRepository(testeimdbContext context,ILog log)
+        private readonly IUserIdentity  _userIdentity;
+        public AtorRepository(testeimdbContext context,ILog log, IUserIdentity userIdentity)
         {
             _ctx = context;
             _log = log;
+            _userIdentity = userIdentity;
         }
 
         public async Task<Retorno> GetAll()
@@ -92,7 +97,6 @@ namespace Base.Repository.Repositorios.Usuario
         {
             try
             {
-
                 var ator = await _ctx.Ator.Select(a => new AtorDTO
                 {
                     Id = a.Id,
@@ -109,8 +113,16 @@ namespace Base.Repository.Repositorios.Usuario
             }
         }
 
+        
+
         public async Task<Retorno> Cadastrar(Ator ator)
         {
+            
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
+
             try
             {
                 _ctx.Ator.Add(ator);
@@ -127,6 +139,11 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Atualizar(Ator ator)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
+
             try
             {
                 var usuExist = await _ctx.Ator.Select(a => new AtorDTO
@@ -152,6 +169,11 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Excluir(int id)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
+
             try
             {
                 var ator = await _ctx.Ator.FirstOrDefaultAsync(a => a.Id.Equals(id));

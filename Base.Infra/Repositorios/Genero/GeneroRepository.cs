@@ -17,11 +17,12 @@ namespace Base.Repository.Repositorios.Usuario
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
-
-        public GeneroRepository(testeimdbContext context, ILog log)
+        private readonly IUserIdentity _userIdentity;
+        public GeneroRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
         {
             _ctx = context;
             _log = log;
+            _userIdentity = userIdentity;
         }
 
         public async Task<Retorno> GetAll()
@@ -111,6 +112,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Cadastrar(Genero genero)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 _ctx.Genero.Add(genero);
@@ -127,6 +132,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Atualizar(Genero genero)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 var exist = await _ctx.Genero.Select(a => new GeneroDTO
@@ -152,6 +161,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Excluir(int id)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
+            }
             try
             {
                 var genero = await _ctx.Genero.FirstOrDefaultAsync(a => a.Id.Equals(id));

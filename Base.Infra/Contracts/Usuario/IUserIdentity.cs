@@ -8,10 +8,11 @@ namespace Base.Repository.Repositorios.Usuario
     {
         string Nome { get; }
         string Email { get; }
-        Guid GetUserId();
+        string GetUserId();
         string GetUserEmail();
         bool IsAuthenticated();
         bool IsInRole(string role);
         IEnumerable<Claim> GetClaimsIdentity();
+        bool ValidarUsuario();
     }
 }

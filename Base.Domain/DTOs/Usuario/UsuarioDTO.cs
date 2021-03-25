@@ -21,6 +21,8 @@ namespace Base.Domain.DTOS.Usuario
         public int IdPerfil { get; set; }
         [Required]
         public string Nome { get; set; }
+        [Required]
+        public bool  Administrador { get; set; }
 
         public UsuarioDTO()
         {

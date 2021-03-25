@@ -17,11 +17,12 @@ namespace Base.Repository.Repositorios.Usuario
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
-
-        public FilmeXAtorRepository(testeimdbContext context, ILog log)
+        private readonly IUserIdentity _userIdentity;
+        public FilmeXAtorRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
         {
             _ctx = context;
             _log = log;
+            _userIdentity = userIdentity;
         }
 
         public async Task<Retorno> GetAll()
@@ -47,6 +48,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Cadastrar(FilmeXator filmeXator)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
             try
             {
                 _ctx.FilmeXator.Add(filmeXator);
@@ -63,6 +68,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Atualizar(FilmeXator filmeXFilmeXAtor)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
             try
             {
                 var usuExist = await _ctx.FilmeXator.Select(a => new FilmeXatorDTO
@@ -87,6 +96,10 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Excluir(int id)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
             try
             {
                 var FilmeXAtor = await _ctx.FilmeXator.FirstOrDefaultAsync(a => a.Id.Equals(id));
@@ -106,6 +119,21 @@ namespace Base.Repository.Repositorios.Usuario
                 _log.GerarLogDisc("Erro ao Excluir FilmeXAtor", ex: ex);
                 throw new Exception("Erro ao Excluir FilmeXAtor", ex);
                 throw new Exception("Erro ao Excluir FilmeXAtor", ex);
+            }
+        }
+
+        public bool validarUsuario()
+        {
+            var username = _userIdentity.GetUserId();
+            var usuario = _ctx.Usuarios.FirstOrDefault(x => x.UserName.Equals(username));
+
+            if (usuario != null)
+            {
+                return usuario.Administrador ?? false;
+            }
+            else
+            {
+                return false;
             }
         }
     }

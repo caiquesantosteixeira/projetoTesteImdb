@@ -20,7 +20,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(FilmeDTO command, ELogin acoes)
+        public async Task<ICommandResult> Persistir(FilmeInputDTO command, ELogin acoes)
         {
             var retorno = new Retorno();
             switch (acoes)
@@ -41,7 +41,7 @@ namespace Base.Service.Usuario
 
 
 
-        private async Task<Retorno> Cadastrar(FilmeDTO command)
+        private async Task<Retorno> Cadastrar(FilmeInputDTO command)
         {
             //command.Validate();
             //if (command.Invalid)
@@ -59,7 +59,7 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(Filme);
         }
 
-        private async Task<Retorno> Atualizar(FilmeDTO command)
+        private async Task<Retorno> Atualizar(FilmeInputDTO command)
         {
             //command.Validate();
             //if (command.Invalid)
@@ -78,7 +78,7 @@ namespace Base.Service.Usuario
             return await _repository.Atualizar(Filme);
         }
 
-        private async Task<Retorno> Excluir(FilmeDTO command)
+        private async Task<Retorno> Excluir(FilmeInputDTO command)
         {
             //if (command.Invalid)
             //    return new Retorno(false, "Dados Inválidos!", command.Notifications);

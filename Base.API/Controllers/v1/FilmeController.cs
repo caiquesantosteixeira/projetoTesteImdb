@@ -17,6 +17,7 @@ namespace Base.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class FilmeController : BaseController
     {
         private readonly IFilmeService _rep;
@@ -67,7 +68,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] FilmeDTO filme)
+        public async Task<IActionResult> Post([FromBody] FilmeInputDTO filme)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] FilmeDTO filme)
+        public async Task<IActionResult> Put([FromBody] FilmeInputDTO filme)
         {
             try
             {
@@ -103,7 +104,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody] FilmeDTO filme)
+        public async Task<IActionResult> Delete([FromBody] FilmeInputDTO filme)
         {
             try
             {

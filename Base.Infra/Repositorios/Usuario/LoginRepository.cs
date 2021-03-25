@@ -90,16 +90,13 @@ namespace Base.Repository.Repositorios.Usuario
 
                     switch (Filtro)
                     {
-                        case "CODIGO":
-                            lista = lista.Where(a => a.Id == ValueFiltro);
-                            break;
                         case "NOME":
                             lista = lista.Where(a => 
                                                     a.Login.Contains(ValueFiltro) || 
                                                     a.NomeDoUsuario.Contains(ValueFiltro) ||
                                                     a.Id.Contains(ValueFiltro)
                                                     )
-                                         .OrderBy(a => a.Login);
+                                         .OrderBy(a => a.NomeDoUsuario);
                             break;
                     }
                 }
@@ -166,7 +163,8 @@ namespace Base.Repository.Repositorios.Usuario
                     EmailConfirmed = true,
                     IdPerfil = command.IdPerfil,
                     Ativo = command.Ativo,
-                    Nome = command.Nome
+                    Nome = command.Nome,
+                    Administrador = command.Administrador
                 };
 
                 var result = await _userManager.CreateAsync(user, command.Senha);

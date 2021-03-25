@@ -17,11 +17,12 @@ namespace Base.Repository.Repositorios.Usuario
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
-
-        public FilmeXDiretorRepository(testeimdbContext context, ILog log)
+        private readonly IUserIdentity _userIdentity;
+        public FilmeXDiretorRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
         {
             _ctx = context;
             _log = log;
+            _userIdentity = userIdentity;
         }
 
         public async Task<Retorno> GetAll()
@@ -47,6 +48,11 @@ namespace Base.Repository.Repositorios.Usuario
 
         public async Task<Retorno> Cadastrar(FilmeXdiretor filmeXDiretor)
         {
+            if (!_userIdentity.ValidarUsuario())
+            {
+                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+            }
+
             try
             {
                 _ctx.FilmeXdiretor.Add(filmeXDiretor);
@@ -65,6 +71,10 @@ namespace Base.Repository.Repositorios.Usuario
         {
             try
             {
+                if (!_userIdentity.ValidarUsuario())
+                {
+                    return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+                }
                 var usuExist = await _ctx.FilmeXdiretor.Select(a => new FilmeXDiretorDTO
                 {
                     Id = a.Id
@@ -89,6 +99,11 @@ namespace Base.Repository.Repositorios.Usuario
         {
             try
             {
+                if (!_userIdentity.ValidarUsuario())
+                {
+                    return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
+                }
+
                 var FilmeXDiretor = await _ctx.FilmeXdiretor.FirstOrDefaultAsync(a => a.Id.Equals(id));
                 if (FilmeXDiretor == null)
                 {

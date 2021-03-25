@@ -13,7 +13,7 @@ namespace Base.Service.Contracts.Usuario
 
         Task<ICommandResult> Persistir(UsuarioDTO command, ELogin acoes);
         Task<ICommandResult> AlterarSenha(AlterarSenhaDTO command, ELogin acoes);
-        Task<Retorno> GetAll();
+        Task<Retorno> GetAll(int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null);
         Task<Retorno> Logar(LoginDTO login);
         Task<Retorno> Get(string id);
     }
