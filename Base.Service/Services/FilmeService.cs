@@ -96,5 +96,10 @@ namespace Base.Service.Usuario
             var retorno = await _repository.GetById(id);
             return retorno;
         }
+
+        public async Task<Retorno> GetAllPaginado(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro = null, string ValueFiltro = null)
+        {
+            return await _repository.DadosPaginado( QtdPorPagina,  PagAtual,  TipoOrdenação,  Filtro,  ValueFiltro);
+        }
     }
 }

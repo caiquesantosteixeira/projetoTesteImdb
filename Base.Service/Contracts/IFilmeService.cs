@@ -11,6 +11,8 @@ namespace Base.Service.Contracts
         Task<ICommandResult> Persistir(FilmeDTO command, ELogin acoes);
         Task<Retorno> GetAll();
         Task<Retorno> Get(string id);
+
+        Task<Retorno> GetAllPaginado(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro, string ValueFiltro);
     }
 
 }

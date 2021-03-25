@@ -26,12 +26,15 @@ namespace Base.API.Controllers.v1
             _rep = repositorioLogin;
         }
 
+        //tipoOrdenacao => NOTA ou ALFABETICA
+        //Filtro => DIRETOR ou NOME ou GENERO ou ATORES
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro = null, string ValueFiltro = null)
         {
             try
             {
-                var retorno = await _rep.GetAll();
+
+                var retorno = await _rep.GetAllPaginado( QtdPorPagina,  PagAtual,  TipoOrdenação,  Filtro,  ValueFiltro );
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
