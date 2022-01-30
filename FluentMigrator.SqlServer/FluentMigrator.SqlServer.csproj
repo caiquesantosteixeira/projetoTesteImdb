@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentMigrator" Version="3.2.9" />
+    <Folder Include="Migrations\_scripts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\_scripts\" />
+    <PackageReference Include="FluentMigrator" Version="3.2.9" />
   </ItemGroup>
 
 </Project>

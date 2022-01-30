@@ -8,7 +8,7 @@ namespace Base.Domain.DTOs
     public class FilmeDTO
     {
         public FilmeDTO() {
-            Atores = new List<AtorDTO>();
+            Atores = new List<AtorUpdateDTO>();
             Diretores = new List<DiretorDTO>();
             Generos = new List<GeneroDTO>();
         }
@@ -21,7 +21,7 @@ namespace Base.Domain.DTOs
 
         public int MediaNota { get; set; }
 
-        public List<AtorDTO> Atores { get; set; }
+        public List<AtorUpdateDTO> Atores { get; set; }
 
         public List<DiretorDTO> Diretores { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Base.Domain.Entidades
 {
@@ -12,7 +13,6 @@ namespace Base.Domain.Entidades
 
         public int Id { get; set; }
         public string Nome { get; set; }
-
         public virtual ICollection<FilmeXator> FilmeXator { get; set; }
     }
 }

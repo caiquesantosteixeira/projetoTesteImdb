@@ -8,10 +8,11 @@ namespace Base.Service.Contracts
 {
     public interface IAtorService
     {
-        Task<ICommandResult> Persistir(AtorDTO command, ELogin acoes);
+        Task<Retorno> Cadastrar(AtorInsertDTO command);
+        Task<Retorno> Atualizar(AtorUpdateDTO command);
+        Task<Retorno> Excluir(AtorUpdateDTO command);
         Task<Retorno> GetAll();
-
-        Task<Retorno> Get(string id);
+        Task<Retorno> Get(int id);
     }
 
 }

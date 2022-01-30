@@ -30,7 +30,7 @@ namespace Base.API
 
 
             string conexao = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<testeimdbContext>(a => a.UseSqlServer(conexao));
+            services.AddDbContext<testeimdbContext>(a => a.UseSqlServer(conexao),contextLifetime:ServiceLifetime.Transient);
 
             // Checa se o Banco existe/Cria antes de executar as Migrations           
             CheckDatabase.DatabaseExist(conexao);           

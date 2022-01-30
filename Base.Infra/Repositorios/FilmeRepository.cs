@@ -58,7 +58,7 @@ namespace Base.Repository.Repositorios.Usuario
                 foreach (var item in lista) {
                     item.Atores = _ctx.Ator
                         .Join(_ctx.FilmeXator, ator => ator.Id, fa => fa.IdAtor, (ator, fa) => new {ator, fa })
-                         .Select(x => new AtorDTO
+                         .Select(x => new AtorUpdateDTO
                     {
                         Id = x.ator.Id ,
                         Nome = x.ator.Nome

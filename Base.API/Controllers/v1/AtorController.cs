@@ -16,7 +16,7 @@ namespace Base.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AtorController : BaseController
     {
         private readonly IAtorService _rep;       
@@ -46,7 +46,7 @@ namespace Base.API.Controllers.v1
 
         [HttpGet("{id}")]
 
-        public async Task<IActionResult> Get( string id)
+        public async Task<IActionResult> Get( int id)
         {
             try
             {
@@ -64,12 +64,11 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> Post([FromBody] AtorDTO ator )
+        public async Task<IActionResult> Post([FromBody] AtorInsertDTO ator )
         {
             try
             {               
-                var retorno = (Retorno)await _rep.Persistir(ator,ELogin.CADASTRAR);
+                var retorno = (Retorno)await _rep.Cadastrar(ator);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -83,11 +82,11 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] AtorDTO ator)
+        public async Task<IActionResult> Put([FromBody] AtorUpdateDTO ator)
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(ator, ELogin.ATUALIZAR);
+                var retorno = (Retorno) await _rep.Atualizar(ator);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -101,11 +100,11 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody] AtorDTO ator)
+        public async Task<IActionResult> Delete([FromBody] AtorUpdateDTO ator)
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(ator, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _rep.Excluir(ator);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -117,6 +116,5 @@ namespace Base.API.Controllers.v1
                 return StatusCode(500, ex.ToString());
             }
         }
-
     }
 }

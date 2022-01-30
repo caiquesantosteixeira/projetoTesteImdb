@@ -20,46 +20,47 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(AtorDTO command, ELogin acoes)
-        {
-            var retorno = new Retorno();
-            switch (acoes)
-            {
-                case ELogin.CADASTRAR:
-                    retorno = await Cadastrar(command);
-                    break;
-                case ELogin.ATUALIZAR:
-                    retorno = await Atualizar(command);
-                    break;
-                case ELogin.EXCLUIR:
-                    retorno = await Excluir(command);
-                    break;
-            }
-
-            return retorno;
-        }
-
-
-
-        private async Task<Retorno> Cadastrar(AtorDTO command)
+        public async Task<Retorno> Cadastrar(AtorInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
 
-            var Ator = new Ator
+            var ator = new Ator
             {
                 Nome = command.Nome
             };
+            var cadastrado = await _repository.Cadastrar(ator);
 
-            return await _repository.Cadastrar(Ator);
+            if (cadastrado.Sucesso)
+            {
+                var cadastradoConvertido = (Ator)cadastrado.Data;
+
+                var ret = new AtorDTO
+                {
+                    Id = cadastradoConvertido.Id,
+                    Nome = cadastradoConvertido.Nome
+                };
+                return new Retorno(true, "Cadastrado com sucesso.", ret);
+            }
+            else {
+                return cadastrado;
+            }
         }
 
-        private async Task<Retorno> Atualizar(AtorDTO command)
+        public async Task<Retorno> Atualizar(AtorUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+
+
+            var existente = await _repository.GetById(command.Id);
+
+            if (existente.Data == null) 
+            {
+                return new Retorno(false, "Ator não existente", "Ator não existente");
+            }
 
             var Ator = new Ator
             {
@@ -67,23 +68,45 @@ namespace Base.Service.Usuario
                 Nome = command.Nome
             };
 
-            return await _repository.Atualizar(Ator);
+            var atualizado = _repository.Atualizar(Ator);
+
+            if (atualizado.Sucesso)
+            {
+                var atualizadoConvertido = (Ator)atualizado.Data;
+
+                var ret = new AtorDTO
+                {
+                    Id = atualizadoConvertido.Id,
+                    Nome = atualizadoConvertido.Nome
+                };
+
+                return new Retorno(true, "Atualizado com sucesso.", ret);
+            }
+            else {
+                return atualizado;
+            }
         }
 
-        private async Task<Retorno> Excluir(AtorDTO command)
+        public async Task<Retorno> Excluir(AtorUpdateDTO command)
         {
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+            var existente = await _repository.GetById(command.Id);
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "Ator não existente", "Ator não existente");
+            }
 
             return await _repository.Excluir(command.Id);
         }
 
         public async Task<Retorno> GetAll()
         {
-            return await _repository.GetAll();
+           return await _repository.GetAll();
+
         }
 
-        public async Task<Retorno> Get(string id)
+        public async Task<Retorno> Get(int id)
         {
             var retorno = await _repository.GetById(id);
             return retorno;
