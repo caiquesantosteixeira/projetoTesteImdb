@@ -22,7 +22,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<Retorno> Cadastrar(GeneroDTO command)
+        public async Task<Retorno> Cadastrar(GeneroInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -36,7 +36,7 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(Genero);
         }
 
-        public async Task<Retorno> Atualizar(GeneroDTO command)
+        public async Task<Retorno> Atualizar(GeneroUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -59,8 +59,6 @@ namespace Base.Service.Usuario
 
         public async Task<Retorno> Excluir(GeneroDTO command)
         {
-            if (command.Invalid)
-                return new Retorno(false, "Dados Inválidos!", command.Notifications);
             var existente = await _repository.GetById(command.Id);
             if (existente.Data == null)
             {

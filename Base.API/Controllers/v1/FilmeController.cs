@@ -68,7 +68,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] FilmeInputDTO filme)
+        public async Task<IActionResult> Post([FromBody] FilmeInsertDTO filme)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] FilmeInputDTO filme)
+        public async Task<IActionResult> Put([FromBody] FilmeUpdateDTO filme)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody] FilmeInputDTO filme)
+        public async Task<IActionResult> Delete([FromBody] FilmeDTO filme)
         {
             try
             {

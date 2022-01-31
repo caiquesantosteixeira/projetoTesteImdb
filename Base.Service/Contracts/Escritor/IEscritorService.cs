@@ -8,9 +8,9 @@ namespace Base.Service.Contracts
 {
     public interface IEscritorService
     {
-        Task<Retorno> Cadastrar(EscritorDTO command);
+        Task<Retorno> Cadastrar(EscritorInsertDTO command);
 
-        Task<Retorno> Atualizar(EscritorDTO command);
+        Task<Retorno> Atualizar(EscritorUpdateDTO command);
 
         Task<Retorno> Excluir(EscritorDTO command);
 

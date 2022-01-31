@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Base.Domain.DTOs
 {
-    public class FilmeXNotaDTO : Notifiable
+    public class FilmeXNotaUpdateDTO : Notifiable
     {
         public int Id { get; set; }
         [Required]

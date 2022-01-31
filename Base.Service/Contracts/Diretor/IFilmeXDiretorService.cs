@@ -8,8 +8,8 @@ namespace Base.Service.Contracts
 {
     public interface IFilmeXDiretorService
     {
-        Task<Retorno> Cadastrar(FilmeXDiretorDTO command);
-        Task<Retorno> Atualizar(FilmeXDiretorDTO command);
+        Task<Retorno> Cadastrar(FilmeXDiretorInsertDTO command);
+        Task<Retorno> Atualizar(FilmeXDiretorUpdateDTO command);
         Task<Retorno> Excluir(FilmeXDiretorDTO command);
         Task<Retorno> GetAll();
     }

@@ -8,8 +8,8 @@ namespace Base.Service.Contracts
 {
     public interface IGeneroService
     {
-        Task<Retorno> Cadastrar(GeneroDTO command);
-        Task<Retorno> Atualizar(GeneroDTO command);
+        Task<Retorno> Cadastrar(GeneroInsertDTO command);
+        Task<Retorno> Atualizar(GeneroUpdateDTO command);
         Task<Retorno> Excluir(GeneroDTO command);
         Task<Retorno> GetAll();
         Task<Retorno> Get(int id);

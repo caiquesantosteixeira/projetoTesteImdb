@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Base.Domain.DTOs
 {
-    public class FilmeInputDTO
+    public class FilmeInsertDTO
     {
         public int Id { get; set; }
         [Required]

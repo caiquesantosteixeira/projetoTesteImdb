@@ -10,8 +10,8 @@ namespace Base.Service.Contracts
     {
         Task<Retorno> GetAll();
         Task<Retorno> Get(int id);
-        Task<Retorno> Cadastrar(DiretorDTO command);
-        Task<Retorno> Atualizar(DiretorDTO command);
+        Task<Retorno> Cadastrar(DiretorInsertDTO command);
+        Task<Retorno> Atualizar(DiretorUpdateDTO command);
         Task<Retorno> Excluir(DiretorDTO command);
 
     }

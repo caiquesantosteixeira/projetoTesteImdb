@@ -20,7 +20,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<Retorno> Cadastrar(FilmeXDiretorDTO command)
+        public async Task<Retorno> Cadastrar(FilmeXDiretorInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -35,7 +35,7 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(FilmeXDiretor);
         }
 
-        public async Task<Retorno> Atualizar(FilmeXDiretorDTO command)
+        public async Task<Retorno> Atualizar(FilmeXDiretorUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -58,10 +58,7 @@ namespace Base.Service.Usuario
         }
 
         public async Task<Retorno> Excluir(FilmeXDiretorDTO command)
-        {
-            if (command.Invalid)
-                return new Retorno(false, "Dados Inválidos!", command.Notifications);
-            
+        {   
             var existente = await _repository.GetById(command.Id);
             if (existente.Data == null)
             {

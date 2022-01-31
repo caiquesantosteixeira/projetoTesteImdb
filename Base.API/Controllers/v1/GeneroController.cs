@@ -64,7 +64,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] GeneroDTO genero )
+        public async Task<IActionResult> Post([FromBody] GeneroInsertDTO genero )
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] GeneroDTO genero)
+        public async Task<IActionResult> Put([FromBody] GeneroUpdateDTO genero)
         {
             try
             {

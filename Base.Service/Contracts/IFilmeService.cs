@@ -8,9 +8,9 @@ namespace Base.Service.Contracts
 {
     public interface IFilmeService
     {
-        Task<Retorno> Cadastrar(FilmeInputDTO command);
-        Task<Retorno> Atualizar(FilmeInputDTO command);
-        Task<Retorno> Excluir(FilmeInputDTO command);
+        Task<Retorno> Cadastrar(FilmeInsertDTO command);
+        Task<Retorno> Atualizar(FilmeUpdateDTO command);
+        Task<Retorno> Excluir(FilmeDTO command);
 
         Task<Retorno> GetAll();
         Task<Retorno> Get(int id);

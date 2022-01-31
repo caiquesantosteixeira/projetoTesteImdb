@@ -22,7 +22,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<Retorno> Cadastrar(DiretorDTO command)
+        public async Task<Retorno> Cadastrar(DiretorInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -36,7 +36,7 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(Diretor);
         }
 
-        public async Task<Retorno> Atualizar(DiretorDTO command)
+        public async Task<Retorno> Atualizar(DiretorUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -60,9 +60,6 @@ namespace Base.Service.Usuario
 
         public async Task<Retorno> Excluir(DiretorDTO command)
         {
-            if (command.Invalid)
-                return new Retorno(false, "Dados Inválidos!", command.Notifications);
-
             var existente = await _repository.GetById(command.Id);
 
             if (existente.Data == null)

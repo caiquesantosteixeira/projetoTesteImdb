@@ -19,7 +19,7 @@ namespace Base.Service.Usuario
             _repository = repository;
             _log = log;
         }
-        public async Task<Retorno> Cadastrar(EscritorDTO command)
+        public async Task<Retorno> Cadastrar(EscritorInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -33,7 +33,7 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(escritor);
         }
 
-        public async Task<Retorno> Atualizar(EscritorDTO command)
+        public async Task<Retorno> Atualizar(EscritorUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -54,8 +54,6 @@ namespace Base.Service.Usuario
 
         public async Task<Retorno> Excluir(EscritorDTO command)
         {
-            if (command.Invalid)
-                return new Retorno(false, "Dados Inválidos!", command.Notifications);
             var existente = await _repository.GetById(command.Id);
             if (existente.Data == null)
             {

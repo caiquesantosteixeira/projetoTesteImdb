@@ -21,7 +21,7 @@ namespace Base.Service.Usuario
         }
 
 
-        public async Task<Retorno> Cadastrar(FilmeInputDTO command)
+        public async Task<Retorno> Cadastrar(FilmeInsertDTO command)
         {
             //command.Validate();
             //if (command.Invalid)
@@ -36,10 +36,30 @@ namespace Base.Service.Usuario
                 Foto = command.Foto
             };
 
-            return await _repository.Cadastrar(Filme);
+            var cadastrado = await _repository.Cadastrar(Filme);
+
+            if (cadastrado.Sucesso)
+            {
+                var cadastradoConvertido = (Filme)cadastrado.Data;
+
+                var ret = new FilmeDTO
+                {
+                    Id = cadastradoConvertido.Id,
+                    Nome = cadastradoConvertido.Nome,
+                    Resumo = cadastradoConvertido.Resumo,
+                    Tempo = cadastradoConvertido.Tempo,
+                    Ano = cadastradoConvertido.Ano,
+                    Foto = cadastradoConvertido.Foto
+                };
+                return new Retorno(true, "Cadastrado com sucesso.", ret);
+            }
+            else
+            {
+                return cadastrado;
+            }
         }
 
-        public async Task<Retorno> Atualizar(FilmeInputDTO command)
+        public async Task<Retorno> Atualizar(FilmeUpdateDTO command)
         {
             //command.Validate();
             //if (command.Invalid)
@@ -59,13 +79,31 @@ namespace Base.Service.Usuario
                 Foto = command.Foto
             };
 
-            return _repository.Atualizar(Filme);
+            var cadastrado = _repository.Atualizar(Filme);
+
+            if (cadastrado.Sucesso)
+            {
+                var cadastradoConvertido = (Filme)cadastrado.Data;
+
+                var ret = new FilmeDTO
+                {
+                    Id = cadastradoConvertido.Id,
+                    Nome = cadastradoConvertido.Nome,
+                    Resumo = cadastradoConvertido.Resumo,
+                    Tempo = cadastradoConvertido.Tempo,
+                    Ano = cadastradoConvertido.Ano,
+                    Foto = cadastradoConvertido.Foto
+                };
+                return new Retorno(true, "Atualizado com sucesso.", ret);
+            }
+            else
+            {
+                return cadastrado;
+            }
         }
 
-        public async Task<Retorno> Excluir(FilmeInputDTO command)
+        public async Task<Retorno> Excluir(FilmeDTO command)
         {
-            //if (command.Invalid)
-            //    return new Retorno(false, "Dados Inválidos!", command.Notifications);
             var existente = await _repository.GetById(command.Id);
             if (existente.Data == null)
             {

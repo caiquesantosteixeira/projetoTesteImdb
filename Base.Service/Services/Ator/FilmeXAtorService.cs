@@ -7,6 +7,7 @@ using Base.Repository.Contracts;
 using Base.Domain.DTOs;
 using Base.Domain.Entidades;
 using Base.Service.Contracts;
+using Base.Domain.DTOs.Ator;
 
 namespace Base.Service.Usuario
 {
@@ -20,7 +21,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<Retorno> Cadastrar(FilmeXatorDTO command)
+        public async Task<Retorno> Cadastrar(FilmeXatorInsertDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -33,10 +34,27 @@ namespace Base.Service.Usuario
                 IdFilme = command.IdFilme
             };
 
-            return await _repository.Cadastrar(filmeXAtor);
+            var cadastrado = await _repository.Cadastrar(filmeXAtor);
+
+            if (cadastrado.Sucesso)
+            {
+                var cadastradoConvertido = (FilmeXator)cadastrado.Data;
+
+                var ret = new FilmeXatorDTO
+                {
+                    Id = cadastradoConvertido.Id,
+                    IdFilme = cadastradoConvertido.IdFilme,
+                    IdAtor = cadastradoConvertido.IdAtor
+                };
+                return new Retorno(true, "Cadastrado com sucesso.", ret);
+            }
+            else
+            {
+                return cadastrado;
+            }
         }
 
-        public async Task<Retorno> Atualizar(FilmeXatorDTO command)
+        public async Task<Retorno> Atualizar(FilmeXatorUpdateDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -56,14 +74,28 @@ namespace Base.Service.Usuario
                 IdFilme = command.IdFilme
             };
 
-            return  _repository.Atualizar(filmeXAtor);
+            var cadastrado = _repository.Atualizar(filmeXAtor);
+
+            if (cadastrado.Sucesso)
+            {
+                var cadastradoConvertido = (FilmeXator)cadastrado.Data;
+
+                var ret = new FilmeXatorDTO
+                {
+                    Id = cadastradoConvertido.Id,
+                    IdFilme = cadastradoConvertido.IdFilme,
+                    IdAtor = cadastradoConvertido.IdAtor
+                };
+                return new Retorno(true, "Atualizado com sucesso.", ret);
+            }
+            else
+            {
+                return cadastrado;
+            }
         }
 
         public async Task<Retorno> Excluir(FilmeXatorDTO command)
         {
-            if (command.Invalid)
-                return new Retorno(false, "Dados Inválidos!", command.Notifications);
-            
             var existente = await _repository.GetById(command.Id);
 
             if (existente.Data == null)

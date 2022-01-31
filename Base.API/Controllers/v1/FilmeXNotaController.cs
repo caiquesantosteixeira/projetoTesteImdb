@@ -27,7 +27,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] FilmeXNotaDTO filmeXNota)
+        public async Task<IActionResult> Post([FromBody] FilmeXNotaInsertDTO filmeXNota)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Base.API.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] FilmeXNotaDTO filmeXNota)
+        public async Task<IActionResult> Put([FromBody] FilmeXNotaUpdateDTO filmeXNota)
         {
             try
             {

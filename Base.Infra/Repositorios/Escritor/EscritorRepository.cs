@@ -29,7 +29,7 @@ namespace Base.Repository.Repositorios.Usuario
         {
             try
             {
-                var lista = _ctx.Escritor.Select(a => new EscritorDTO
+                var lista = _ctx.Escritor.Select(a => new EscritorUpdateDTO
                 {
                     Id = a.Id,
                     Nome = a.Nome
@@ -58,7 +58,7 @@ namespace Base.Repository.Repositorios.Usuario
                             .OrderBy(a => a.Id);
                 }
 
-                var dados = Paginacao.GetPage<Escritor, EscritorDTO>(_ctx.Escritor, lista, QtdPorPagina, PagAtual);
+                var dados = Paginacao.GetPage<Escritor, EscritorUpdateDTO>(_ctx.Escritor, lista, QtdPorPagina, PagAtual);
                 return new Retorno(true, "Dados Paginados", dados);
 
             }
