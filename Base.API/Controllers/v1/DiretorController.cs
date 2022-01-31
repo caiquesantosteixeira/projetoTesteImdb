@@ -46,7 +46,7 @@ namespace Base.API.Controllers.v1
 
         [HttpGet("{id}")]
 
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.CADASTRAR);
+                var retorno = (Retorno)await _rep.Cadastrar(diretor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -86,7 +86,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.ATUALIZAR);
+                var retorno = (Retorno)await _rep.Atualizar(diretor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -104,7 +104,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(diretor, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _rep.Excluir(diretor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 

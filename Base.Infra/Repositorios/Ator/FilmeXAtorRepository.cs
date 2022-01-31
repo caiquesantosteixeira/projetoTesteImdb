@@ -12,129 +12,17 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Repositorios.Usuario
 {
-    public class FilmeXAtorRepository:IFilmeXAtor
+    public class FilmeXAtorRepository: BaseRepository<FilmeXator>, IFilmeXAtor
     {
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
         private readonly IUserIdentity _userIdentity;
-        public FilmeXAtorRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
+        public FilmeXAtorRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity) : base(context, log, userIdentity)
         {
             _ctx = context;
             _log = log;
             _userIdentity = userIdentity;
-        }
-
-        public async Task<Retorno> GetAll()
-        {
-            try
-            {
-                var lista = await _ctx.FilmeXator.Select(a => new FilmeXator
-                {
-                    Id = a.Id,
-                    IdFilme = a.IdFilme,
-                    IdAtor = a.IdAtor
-                }).AsNoTracking().ToListAsync();
-                return new Retorno(true, "", lista);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar FilmeXAtor", ex: ex);
-                throw new Exception("Erro ao Consultar FilmeXAtor", ex);
-            }
-        }
-
-
-        public async Task<Retorno> Cadastrar(FilmeXator filmeXator)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
-            }
-            try
-            {
-                _ctx.FilmeXator.Add(filmeXator);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "FilmeXAtor cadastrado com sucesso.", "FilmeXFilmeXAtor cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o FilmeXFilmeXAtor", ex: ex);
-                throw new Exception("Erro ao Cadastrar o FilmeXFilmeXAtor", ex);
-            }
-        }
-
-        public async Task<Retorno> Atualizar(FilmeXator filmeXFilmeXAtor)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
-            }
-            try
-            {
-                var usuExist = await _ctx.FilmeXator.Select(a => new FilmeXatorDTO
-                {
-                    Id = a.Id
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id == filmeXFilmeXAtor.Id);
-
-                if (usuExist == null)
-                    return new Retorno(false, "FilmeXAtor Não existe", "FilmeXAtor Não existe");
-
-                _ctx.FilmeXator.Update(filmeXFilmeXAtor);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "FilmeXAtor atualizado com sucesso.", "FilmeXAtor cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o FilmeXAtor", ex: ex);
-                throw new Exception("Erro ao Cadastrar o FilmeXAtor", ex);
-            }
-        }
-
-        public async Task<Retorno> Excluir(int id)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem cadastrar.", "Só Administradores podem cadastrar."); ;
-            }
-            try
-            {
-                var FilmeXAtor = await _ctx.FilmeXator.FirstOrDefaultAsync(a => a.Id.Equals(id));
-                if (FilmeXAtor == null)
-                {
-                    return new Retorno(false, "Não Autorizado", "FilmeXAtor não encontrado.");
-                }
-
-
-                _ctx.FilmeXator.Remove(FilmeXAtor);
-                _ctx.SaveChanges();
-                return new Retorno(true, "FilmeXAtor Excluido.", "FilmeXAtor Excluido.");
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Excluir FilmeXAtor", ex: ex);
-                throw new Exception("Erro ao Excluir FilmeXAtor", ex);
-                throw new Exception("Erro ao Excluir FilmeXAtor", ex);
-            }
-        }
-
-        public bool validarUsuario()
-        {
-            var username = _userIdentity.GetUserId();
-            var usuario = _ctx.Usuarios.FirstOrDefault(x => x.UserName.Equals(username));
-
-            if (usuario != null)
-            {
-                return usuario.Administrador ?? false;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

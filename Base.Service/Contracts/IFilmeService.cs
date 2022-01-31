@@ -8,11 +8,14 @@ namespace Base.Service.Contracts
 {
     public interface IFilmeService
     {
-        Task<ICommandResult> Persistir(FilmeInputDTO command, ELogin acoes);
-        Task<Retorno> GetAll();
-        Task<Retorno> Get(string id);
+        Task<Retorno> Cadastrar(FilmeInputDTO command);
+        Task<Retorno> Atualizar(FilmeInputDTO command);
+        Task<Retorno> Excluir(FilmeInputDTO command);
 
-        Task<Retorno> GetAllPaginado(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro, string ValueFiltro);
+        Task<Retorno> GetAll();
+        Task<Retorno> Get(int id);
+
+        Task<Retorno> GetAllPaginado(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro = null, string ValueFiltro = null);
     }
 
 }

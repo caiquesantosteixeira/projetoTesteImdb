@@ -31,7 +31,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {               
-                var retorno = (Retorno)await _rep.Persistir(filmeXEscritor, ELogin.CADASTRAR);
+                var retorno = (Retorno)await _rep.Cadastrar(filmeXEscritor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -49,7 +49,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filmeXEscritor, ELogin.ATUALIZAR);
+                var retorno = (Retorno)await _rep.Atualizar(filmeXEscritor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -67,7 +67,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filmeXEscritor, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _rep.Excluir(filmeXEscritor);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 

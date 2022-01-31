@@ -8,7 +8,9 @@ namespace Base.Service.Contracts
 {
     public interface IFilmeXEscritorService
     {
-        Task<ICommandResult> Persistir(FilmeXEscritorDTO command, ELogin acoes);
+        Task<Retorno> Cadastrar(FilmeXEscritorDTO command);
+        Task<Retorno> Atualizar(FilmeXEscritorDTO command);
+        Task<Retorno> Excluir(FilmeXEscritorDTO command);
+        Task<Retorno> GetAll();
     }
-
 }

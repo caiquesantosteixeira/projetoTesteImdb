@@ -12,36 +12,17 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Repositorios.Usuario
 {
-    public class GeneroRepository : IGenero
+    public class GeneroRepository : BaseRepository<Genero>, IGenero
     {
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
         private readonly IUserIdentity _userIdentity;
-        public GeneroRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
+        public GeneroRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity) : base(context, log, userIdentity)
         {
             _ctx = context;
             _log = log;
             _userIdentity = userIdentity;
-        }
-
-        public async Task<Retorno> GetAll()
-        {
-            try
-            {
-                var lista = await _ctx.Genero.Select(a => new GeneroDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().ToListAsync();
-                return new Retorno(true, "Perfil Cadastrado com Sucesso.", lista);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Login", ex: ex);
-                throw new Exception("Erro ao Consultar Login", ex);
-            }
         }
 
         public async Task<Retorno> DadosPaginado(int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null)
@@ -86,104 +67,6 @@ namespace Base.Repository.Repositorios.Usuario
             {
                 _log.GerarLogDisc("Erro ao Paginar Usuarios", ex: ex);
                 throw new Exception("Erro ao Paginar Usuarios", ex);
-            }
-        }
-
-        public async Task<Retorno> GetById(string id)
-        {
-            try
-            {
-
-                var genero = await _ctx.Genero.Select(a => new GeneroDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
-
-                return new Retorno(true, "Genero", genero);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Usuario", ex: ex);
-                throw new Exception("Erro ao Consultar Usuario", ex);
-            }
-        }
-
-        public async Task<Retorno> Cadastrar(Genero genero)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                _ctx.Genero.Add(genero);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "Genero cadastrado com sucesso.", "Genero cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Genero", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Genero", ex);
-            }
-        }
-
-        public async Task<Retorno> Atualizar(Genero genero)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var exist = await _ctx.Genero.Select(a => new GeneroDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id == genero.Id);
-
-                if (exist == null)
-                    return new Retorno(false, "Genero Não existe", "Genero Não existe");
-
-                _ctx.Genero.Update(genero);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "Genero atualizado com sucesso.", "Genero cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Genero", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Genero", ex);
-            }
-        }
-
-        public async Task<Retorno> Excluir(int id)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var genero = await _ctx.Genero.FirstOrDefaultAsync(a => a.Id.Equals(id));
-                if (genero == null)
-                {
-                    return new Retorno(false, "Não Autorizado", "Genero não encontrado.");
-                }
-
-
-                _ctx.Genero.Remove(genero);
-                _ctx.SaveChanges();
-                return new Retorno(true, "Genero Excluido.", "Genero Excluido.");
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Excluir Genero", ex: ex);
-                throw new Exception("Erro ao Excluir Genero", ex);
-                throw new Exception("Erro ao Excluir Genero", ex);
             }
         }
     }

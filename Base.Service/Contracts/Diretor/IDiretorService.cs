@@ -8,9 +8,12 @@ namespace Base.Service.Contracts
 {
     public interface IDiretorService
     {
-        Task<ICommandResult> Persistir(DiretorDTO command, ELogin acoes);
         Task<Retorno> GetAll();
-        Task<Retorno> Get(string id);
+        Task<Retorno> Get(int id);
+        Task<Retorno> Cadastrar(DiretorDTO command);
+        Task<Retorno> Atualizar(DiretorDTO command);
+        Task<Retorno> Excluir(DiretorDTO command);
+
     }
 
 }

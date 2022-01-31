@@ -30,8 +30,8 @@ namespace Base.API.Controllers.v1
         public async Task<IActionResult> Post([FromBody] FilmeXNotaDTO filmeXNota)
         {
             try
-            {               
-                var retorno = (Retorno)await _rep.Persistir(filmeXNota, ELogin.CADASTRAR);
+            {
+                var retorno = (Retorno)await _rep.Cadastrar(filmeXNota);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -49,7 +49,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filmeXNota, ELogin.ATUALIZAR);
+                var retorno = (Retorno)await _rep.Atualizar(filmeXNota);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 
@@ -67,7 +67,7 @@ namespace Base.API.Controllers.v1
         {
             try
             {
-                var retorno = (Retorno)await _rep.Persistir(filmeXNota, ELogin.EXCLUIR);
+                var retorno = (Retorno)await _rep.Excluir(filmeXNota);
                 if (retorno.Sucesso == false)
                     return BadRequest(retorno);
 

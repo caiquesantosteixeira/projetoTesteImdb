@@ -4,13 +4,8 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Contracts
 {
-    public interface IFilmeXAtor
+    public interface IFilmeXAtor : IBaseRepository<FilmeXator>
     {
-        Task<Retorno> GetAll();
-        Task<Retorno> Cadastrar(FilmeXator filmeXator);
-        Task<Retorno> Atualizar(FilmeXator filmeXFilmeXAtor);
-        Task<Retorno> Excluir(int id);
-
     }
 
 }

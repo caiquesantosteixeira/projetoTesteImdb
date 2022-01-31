@@ -22,28 +22,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(GeneroDTO command, ELogin acoes)
-        {
-            var retorno = new Retorno();
-            switch (acoes)
-            {
-                case ELogin.CADASTRAR:
-                    retorno = await Cadastrar(command);
-                    break;
-                case ELogin.ATUALIZAR:
-                    retorno = await Atualizar(command);
-                    break;
-                case ELogin.EXCLUIR:
-                    retorno = await Excluir(command);
-                    break;
-            }
-
-            return retorno;
-        }
-
-
-
-        private async Task<Retorno> Cadastrar(GeneroDTO command)
+        public async Task<Retorno> Cadastrar(GeneroDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -57,11 +36,17 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(Genero);
         }
 
-        private async Task<Retorno> Atualizar(GeneroDTO command)
+        public async Task<Retorno> Atualizar(GeneroDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+            
+            var existente = await _repository.GetById(command.Id);
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "Genero não existente", "Genero não existente");
+            }
 
             var Genero = new Genero
             {
@@ -69,14 +54,18 @@ namespace Base.Service.Usuario
                 Nome = command.Nome
             };
 
-            return await _repository.Atualizar(Genero);
+            return _repository.Atualizar(Genero);
         }
 
-        private async Task<Retorno> Excluir(GeneroDTO command)
+        public async Task<Retorno> Excluir(GeneroDTO command)
         {
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
-
+            var existente = await _repository.GetById(command.Id);
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "Genero não existente", "Genero não existente");
+            }
             return await _repository.Excluir(command.Id);
         }
 
@@ -85,7 +74,7 @@ namespace Base.Service.Usuario
             return await _repository.GetAll();
         }
 
-        public async Task<Retorno> Get(string id)
+        public async Task<Retorno> Get(int id)
         {
             var retorno = await _repository.GetById(id);
             return retorno;

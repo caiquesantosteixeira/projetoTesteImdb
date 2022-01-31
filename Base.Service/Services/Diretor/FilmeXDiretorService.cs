@@ -20,28 +20,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(FilmeXDiretorDTO command, ELogin acoes)
-        {
-            var retorno = new Retorno();
-            switch (acoes)
-            {
-                case ELogin.CADASTRAR:
-                    retorno = await Cadastrar(command);
-                    break;
-                case ELogin.ATUALIZAR:
-                    retorno = await Atualizar(command);
-                    break;
-                case ELogin.EXCLUIR:
-                    retorno = await Excluir(command);
-                    break;
-            }
-
-            return retorno;
-        }
-
-
-
-        private async Task<Retorno> Cadastrar(FilmeXDiretorDTO command)
+        public async Task<Retorno> Cadastrar(FilmeXDiretorDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -50,18 +29,23 @@ namespace Base.Service.Usuario
             var FilmeXDiretor = new FilmeXdiretor
             {
                 IdDiretor = command.IdDiretor,
-
                 IdFilme = command.IdFilme
             };
 
             return await _repository.Cadastrar(FilmeXDiretor);
         }
 
-        private async Task<Retorno> Atualizar(FilmeXDiretorDTO command)
+        public async Task<Retorno> Atualizar(FilmeXDiretorDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+            
+            var existente = await _repository.GetById(command.Id);
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "FilmeXDiretor não existente", "FilmeXDiretor não existente");
+            }
 
             var FilmeXDiretor = new FilmeXdiretor
             {
@@ -70,13 +54,19 @@ namespace Base.Service.Usuario
                 IdFilme = command.IdFilme
             };
 
-            return await _repository.Atualizar(FilmeXDiretor);
+            return _repository.Atualizar(FilmeXDiretor);
         }
 
-        private async Task<Retorno> Excluir(FilmeXDiretorDTO command)
+        public async Task<Retorno> Excluir(FilmeXDiretorDTO command)
         {
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+            
+            var existente = await _repository.GetById(command.Id);
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "FilmeXDiretor não existente", "FilmeXDiretor não existente");
+            }
 
             return await _repository.Excluir(command.Id);
         }

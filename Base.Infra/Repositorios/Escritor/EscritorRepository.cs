@@ -12,36 +12,17 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Repositorios.Usuario
 {
-    public class EscritorRepository:IEscritor
+    public class EscritorRepository: BaseRepository<Escritor>, IEscritor
     {
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
         private readonly IUserIdentity _userIdentity;
-        public EscritorRepository(testeimdbContext context,ILog log, IUserIdentity userIdentity)
+        public EscritorRepository(testeimdbContext context,ILog log, IUserIdentity userIdentity) : base(context, log, userIdentity)
         {
             _ctx = context;
             _log = log;
             _userIdentity = userIdentity;
-        }
-
-        public async Task<Retorno> GetAll()
-        {
-            try
-            {
-                var lista = await _ctx.Escritor.Select(a => new EscritorDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().ToListAsync();
-                return new Retorno(true, "Perfil Cadastrado com Sucesso.", lista);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Login", ex: ex);
-                throw new Exception("Erro ao Consultar Login", ex);
-            }
         }
 
         public async Task<Retorno> DadosPaginado(int QtdPorPagina, int PagAtual, string Filtro = null, string ValueFiltro = null)
@@ -73,7 +54,6 @@ namespace Base.Repository.Repositorios.Usuario
                 }
                 else
                 {
-
                     lista = lista
                             .OrderBy(a => a.Id);
                 }
@@ -86,105 +66,6 @@ namespace Base.Repository.Repositorios.Usuario
             {
                 _log.GerarLogDisc("Erro ao Paginar Usuarios", ex: ex);
                 throw new Exception("Erro ao Paginar Usuarios", ex);
-            }
-        }
-
-        public async Task<Retorno> GetById(string id)
-        {
-            try
-            {
-
-                var escritor = await _ctx.Escritor.Select(a => new EscritorDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
-
-                return new Retorno(true, "Escritor", escritor);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Usuario", ex: ex);
-                throw new Exception("Erro ao Consultar Usuario", ex);
-            }
-        }
-
-        public async Task<Retorno> Cadastrar(Escritor escritor)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                _ctx.Escritor.Add(escritor);
-                await _ctx.SaveChangesAsync();
-
-                return  new Retorno(true, "Escritor cadastrado com sucesso.", "Escritor cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Escritor", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Escritor", ex);
-            }
-        }
-
-        public async Task<Retorno> Atualizar(Escritor escritor)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var usuExist = await _ctx.Escritor.Select(a => new EscritorDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id == escritor.Id);
-
-
-                if (usuExist == null)
-                    return new Retorno(false, "Escritor Não existe", "Escritor Não existe");
-
-                _ctx.Escritor.Update(escritor);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "Escritor atualizado com sucesso.", "Escritor cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Escritor", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Escritor", ex);
-            }
-        }
-
-        public async Task<Retorno> Excluir(int id)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var escritor = await _ctx.Escritor.FirstOrDefaultAsync(a => a.Id.Equals(id));
-                if (escritor == null)
-                {
-                    return new Retorno(false, "Não Autorizado", "Escritor não encontrado.");
-                }
-
-
-                _ctx.Escritor.Remove(escritor);
-                _ctx.SaveChanges();
-                return new Retorno(true, "Escritor Excluido.", "Escritor Excluido.");
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Excluir Escritor", ex: ex);
-                throw new Exception("Erro ao Excluir Escritor", ex);
-                throw new Exception("Erro ao Excluir Escritor", ex);
             }
         }
     }

@@ -22,28 +22,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(DiretorDTO command, ELogin acoes)
-        {
-            var retorno = new Retorno();
-            switch (acoes)
-            {
-                case ELogin.CADASTRAR:
-                    retorno = await Cadastrar(command);
-                    break;
-                case ELogin.ATUALIZAR:
-                    retorno = await Atualizar(command);
-                    break;
-                case ELogin.EXCLUIR:
-                    retorno = await Excluir(command);
-                    break;
-            }
-
-            return retorno;
-        }
-
-
-
-        private async Task<Retorno> Cadastrar(DiretorDTO command)
+        public async Task<Retorno> Cadastrar(DiretorDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -57,11 +36,18 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(Diretor);
         }
 
-        private async Task<Retorno> Atualizar(DiretorDTO command)
+        public async Task<Retorno> Atualizar(DiretorDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+
+            var existente = await _repository.GetById(command.Id);
+
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "Diretor não existente", "Diretor não existente");
+            }
 
             var Diretor = new Diretor
             {
@@ -69,13 +55,20 @@ namespace Base.Service.Usuario
                 Nome = command.Nome
             };
 
-            return await _repository.Atualizar(Diretor);
+            return _repository.Atualizar(Diretor);
         }
 
-        private async Task<Retorno> Excluir(DiretorDTO command)
+        public async Task<Retorno> Excluir(DiretorDTO command)
         {
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+
+            var existente = await _repository.GetById(command.Id);
+
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "Diretor não existente", "Diretor não existente");
+            }
 
             return await _repository.Excluir(command.Id);
         }
@@ -85,7 +78,7 @@ namespace Base.Service.Usuario
             return await _repository.GetAll();
         }
 
-        public async Task<Retorno> Get(string id)
+        public async Task<Retorno> Get(int id)
         {
             var retorno = await _repository.GetById(id);
             return retorno;

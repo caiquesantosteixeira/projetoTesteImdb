@@ -20,28 +20,7 @@ namespace Base.Service.Usuario
             _log = log;
         }
 
-        public async Task<ICommandResult> Persistir(FilmeXatorDTO command, ELogin acoes)
-        {
-            var retorno = new Retorno();
-            switch (acoes)
-            {
-                case ELogin.CADASTRAR:
-                    retorno = await Cadastrar(command);
-                    break;
-                case ELogin.ATUALIZAR:
-                    retorno = await Atualizar(command);
-                    break;
-                case ELogin.EXCLUIR:
-                    retorno = await Excluir(command);
-                    break;
-            }
-
-            return retorno;
-        }
-
-
-
-        private async Task<Retorno> Cadastrar(FilmeXatorDTO command)
+        public async Task<Retorno> Cadastrar(FilmeXatorDTO command)
         {
             command.Validate();
             if (command.Invalid)
@@ -57,11 +36,18 @@ namespace Base.Service.Usuario
             return await _repository.Cadastrar(filmeXAtor);
         }
 
-        private async Task<Retorno> Atualizar(FilmeXatorDTO command)
+        public async Task<Retorno> Atualizar(FilmeXatorDTO command)
         {
             command.Validate();
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+
+            var existente = await _repository.GetById(command.Id);
+
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "FilmeXator não existente", "FilmeXator não existente");
+            }
 
             var filmeXAtor = new FilmeXator
             {
@@ -70,13 +56,20 @@ namespace Base.Service.Usuario
                 IdFilme = command.IdFilme
             };
 
-            return await _repository.Atualizar(filmeXAtor);
+            return  _repository.Atualizar(filmeXAtor);
         }
 
-        private async Task<Retorno> Excluir(FilmeXatorDTO command)
+        public async Task<Retorno> Excluir(FilmeXatorDTO command)
         {
             if (command.Invalid)
                 return new Retorno(false, "Dados Inválidos!", command.Notifications);
+            
+            var existente = await _repository.GetById(command.Id);
+
+            if (existente.Data == null)
+            {
+                return new Retorno(false, "FilmeXator não existente", "FilmeXator não existente");
+            }
 
             return await _repository.Excluir(command.Id);
         }

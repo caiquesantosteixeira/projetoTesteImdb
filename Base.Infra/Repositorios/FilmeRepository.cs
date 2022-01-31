@@ -13,38 +13,18 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Repositorios.Usuario
 {
-    public class FilmeRepository:IFilme
+    public class FilmeRepository: BaseRepository<Filme>, IFilme
     {
 
         private readonly testeimdbContext _ctx;
         private readonly ILog _log;
         private readonly IUserIdentity _userIdentity;
-        public FilmeRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity)
+        public FilmeRepository(testeimdbContext context, ILog log, IUserIdentity userIdentity) : base(context, log, userIdentity)
         {
             _ctx = context;
             _log = log;
             _userIdentity = userIdentity;
         }
-
-        public async Task<Retorno> GetAll()
-        {
-            try
-            {
-                var lista = await _ctx.Filme.Select(a => new FilmeDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().ToListAsync();
-                return new Retorno(true, "Perfil Cadastrado com Sucesso.", lista);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Login", ex: ex);
-                throw new Exception("Erro ao Consultar Login", ex);
-            }
-        }
-
         public async Task<Retorno> DadosPaginado(int QtdPorPagina, int PagAtual, string TipoOrdenação, string Filtro = null, string ValueFiltro = null)
         {
             try
@@ -55,6 +35,7 @@ namespace Base.Repository.Repositorios.Usuario
                     Nome = a.Nome,
                     
                 }).ToList();
+
                 foreach (var item in lista) {
                     item.Atores = _ctx.Ator
                         .Join(_ctx.FilmeXator, ator => ator.Id, fa => fa.IdAtor, (ator, fa) => new {ator, fa })
@@ -162,105 +143,6 @@ namespace Base.Repository.Repositorios.Usuario
             {
                 _log.GerarLogDisc("Erro ao Paginar Usuarios", ex: ex);
                 throw new Exception("Erro ao Paginar Usuarios", ex);
-            }
-        }
-
-        public async Task<Retorno> GetById(string id)
-        {
-            try
-            {
-
-                var filme = await _ctx.Filme.Select(a => new FilmeDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
-
-                return new Retorno(true, "Filme", filme);
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Consultar Usuario", ex: ex);
-                throw new Exception("Erro ao Consultar Usuario", ex);
-            }
-        }
-
-        public async Task<Retorno> Cadastrar(Filme filme)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                _ctx.Filme.Add(filme);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "Filme cadastrado com sucesso.", "Filme cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Filme", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Filme", ex);
-            }
-        }
-
-        public async Task<Retorno> Atualizar(Filme filme)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var exist = await _ctx.Filme.Select(a => new FilmeDTO
-                {
-                    Id = a.Id,
-                    Nome = a.Nome
-                }).AsNoTracking().FirstOrDefaultAsync(x => x.Id == filme.Id);
-
-
-                if (exist == null)
-                    return new Retorno(false, "Filme Não existe", "Filme Não existe");
-
-                _ctx.Filme.Update(filme);
-                await _ctx.SaveChangesAsync();
-
-                return new Retorno(true, "Filme atualizado com sucesso.", "Filme cadastrado com sucesso."); ;
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Cadastrar o Filme", ex: ex);
-                throw new Exception("Erro ao Cadastrar o Filme", ex);
-            }
-        }
-
-        public async Task<Retorno> Excluir(int id)
-        {
-            if (!_userIdentity.ValidarUsuario())
-            {
-                return new Retorno(false, "Só Administradores podem persistir.", "Só Administradores podem persistir."); ;
-            }
-            try
-            {
-                var filme = await _ctx.Filme.FirstOrDefaultAsync(a => a.Id.Equals(id));
-                if (filme == null)
-                {
-                    return new Retorno(false, "Não Autorizado", "Filme não encontrado.");
-                }
-
-
-                _ctx.Filme.Remove(filme);
-                _ctx.SaveChanges();
-                return new Retorno(true, "Filme Excluido.", "Filme Excluido.");
-
-            }
-            catch (Exception ex)
-            {
-                _log.GerarLogDisc("Erro ao Excluir Filme", ex: ex);
-                throw new Exception("Erro ao Excluir Filme", ex);
-                throw new Exception("Erro ao Excluir Filme", ex);
             }
         }
     }

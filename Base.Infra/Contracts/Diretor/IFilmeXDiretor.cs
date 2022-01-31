@@ -4,12 +4,7 @@ using System.Threading.Tasks;
 
 namespace Base.Repository.Contracts
 {
-    public interface IFilmeXDiretor
+    public interface IFilmeXDiretor:IBaseRepository<FilmeXdiretor>
     {
-        Task<Retorno> GetAll();
-        Task<Retorno> Cadastrar(FilmeXdiretor filmeXDiretor);
-        Task<Retorno> Atualizar(FilmeXdiretor filmeXFilmeXDiretor);
-        Task<Retorno> Excluir(int id);
     }
-
 }

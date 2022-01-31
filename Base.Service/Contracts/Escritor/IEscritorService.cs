@@ -8,9 +8,15 @@ namespace Base.Service.Contracts
 {
     public interface IEscritorService
     {
-        Task<ICommandResult> Persistir(EscritorDTO command, ELogin acoes);
+        Task<Retorno> Cadastrar(EscritorDTO command);
+
+        Task<Retorno> Atualizar(EscritorDTO command);
+
+        Task<Retorno> Excluir(EscritorDTO command);
+
         Task<Retorno> GetAll();
-        Task<Retorno> Get(string id);
+
+        Task<Retorno> Get(int id);
     }
 
 }
